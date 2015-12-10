@@ -3,7 +3,7 @@
  * So change this template file, choose Sools | Semplates
  * and open the template in the editor.
  */
-package tetris.model.figure;
+package tetris.model.shape;
 
 
 /**

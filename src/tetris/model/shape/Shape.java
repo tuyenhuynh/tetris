@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tetris.model.figure;
+package tetris.model.shape;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -26,8 +24,8 @@ public abstract class Shape {
     
     public boolean isCollideWith (Shape other) {
         
-        List <Point> myCells = findCells(this);
-        List <Point> otherCells = findCells(other);
+        List <Point> myCells = findNotEmptyCells();
+        List <Point> otherCells = other.findNotEmptyCells();
         for(Point cell : myCells) {
             if(otherCells.contains(cell)) {
                 return true;
@@ -36,14 +34,15 @@ public abstract class Shape {
         return false;
     }
     
-    private List<Point> findCells (Shape shape) {
+    //return global coordinates of not empty cells of figure
+    public List<Point> findNotEmptyCells () {
         
         List<Point> result = new ArrayList(); 
         
-        for(int i = 0 ; i < shape.getHeight(); ++i ) {
-            for(int j = 0 ; j < shape.getWidth(); ++j){
-                if(shape.cells[i][j] == 1) {
-                    Point p = new Point(shape.position.x + j, shape.position.y - i);
+        for(int i = 0 ; i < getHeight(); ++i ) {
+            for(int j = 0 ; j < getWidth(); ++j){
+                if(cells[i][j] == 1) {
+                    Point p = new Point(position.x + j, position.y - i);
                     result.add(p);
                 }
             }
