@@ -73,6 +73,7 @@ public class JFigure extends Figure{
                 break;
         }
         cells = cellsConfigs[state];
+        validateRotation();
     }
 
     @Override

@@ -55,7 +55,7 @@ public class ZFigure extends Figure{
                 break;
         }
         cells = cellsConfigs[state];
-        
+        validateRotation();
     }
 
     @Override
@@ -73,6 +73,7 @@ public class ZFigure extends Figure{
                 break;
         }
         cells = cellsConfigs[state];
+        validateRotation();
     }
     
     @Override

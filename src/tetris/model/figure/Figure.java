@@ -82,21 +82,21 @@ public abstract class Figure extends Shape {
     
     public abstract void rotateAntiClockWise() ;
     
-    boolean isRotated() {
+    void validateRotation() {
         
         if(!isInGameField()){
             rotateAntiClockWise();
-            return false; 
+            //return false; 
         }
         
         for(Shape shape: gameField.getFieldBottom().getShapes() ) {
             if(this.isCollideWith(shape)) {
                 rotateAntiClockWise();
-                return false; 
+                //return false; 
             }
         }
         
-        return true; 
+        //return true; 
     }
     
 }

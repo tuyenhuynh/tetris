@@ -56,6 +56,7 @@ public class IFigure extends Figure{
                 return;
         }
         cells = cellsConfigs[state];
+        validateRotation();
     }
 
     @Override
