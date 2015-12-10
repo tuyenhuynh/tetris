@@ -6,8 +6,8 @@
 package tetris.model;
 
 import java.util.List;
-import tetris.model.figure.Shape;
-import tetris.model.figure.Figure;
+import tetris.model.shape.Shape;
+import tetris.model.shape.Figure;
 
 /**
  *
@@ -17,12 +17,15 @@ public class BonusCalculator {
     
     private static final double CELL_PRICE = 10;
     
-    public double calculateBonus(List<Shape> shapes) {
-        double bonus = 0 ; 
+    public int calculateBonus(List<Shape> shapes) {
+        
+        int bonus = 0 ; 
         
         for(Shape shape : shapes) {
             if(shape instanceof Figure) {
                 bonus+= 4*10*CELL_PRICE;
+            }else {
+                bonus+= CELL_PRICE;
             }
         }
         return bonus; 
