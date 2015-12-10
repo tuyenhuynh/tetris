@@ -43,7 +43,7 @@ public abstract class Shape {
         for(int i = 0 ; i < shape.getHeight(); ++i ) {
             for(int j = 0 ; j < shape.getWidth(); ++j){
                 if(shape.cells[i][j] == 1) {
-                    Point p = new Point(shape.position.x + j, shape.position.y + i);
+                    Point p = new Point(shape.position.x + j, shape.position.y - i);
                     result.add(p);
                 }
             }
