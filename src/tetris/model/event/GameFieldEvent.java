@@ -6,8 +6,8 @@
 package tetris.model.event;
 
 import java.util.List;
-import tetris.model.figure.Figure;
-import tetris.model.figure.Shape;
+import tetris.model.shape.Figure;
+import tetris.model.shape.Shape;
 
 /**
  *

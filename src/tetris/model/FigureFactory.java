@@ -5,9 +5,16 @@
  */
 package tetris.model;
 
+import tetris.model.shape.SFigure;
+import tetris.model.shape.JFigure;
+import tetris.model.shape.Figure;
+import tetris.model.shape.LFigure;
+import tetris.model.shape.ZFigure;
+import tetris.model.shape.IFigure;
+import tetris.model.shape.TFigure;
+import tetris.model.shape.OFigure;
 import java.awt.Point;
 import java.util.Random;
-import tetris.model.figure.*; 
 /**
  *
  * @author tuyenhm

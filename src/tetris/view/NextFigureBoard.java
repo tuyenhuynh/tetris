@@ -10,7 +10,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import tetris.model.event.NextFigureBoardListener;
-import tetris.model.figure.Figure;
+import tetris.model.shape.Figure;
 
 /**
  *

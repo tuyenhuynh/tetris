@@ -5,7 +5,7 @@
  */
 package tetris.model.event;
 
-import tetris.model.figure.Figure;
+import tetris.model.shape.Figure;
 
 /**
  *

@@ -43,10 +43,6 @@ public class ScoreBoard extends JPanel{
         score = 0 ; 
     }
     
-    public void updateScore(double score) {
-        scoreLabel.setText(Double.toString(score));
-    }
-    
     @Override
     public void repaint() {
         
@@ -55,9 +51,8 @@ public class ScoreBoard extends JPanel{
     class ScoreBoardObserver implements ScoreBoardListener {
 
         @Override
-        public void scoreChanged(double delta) {
-            score+=delta;
-            updateScore(score);
+        public void scoreChanged(int newScore) {
+            scoreLabel.setText(Integer.toString(newScore));
         }
         
     }

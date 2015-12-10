@@ -9,9 +9,9 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import tetris.model.event.GameFieldListener;
-import tetris.model.figure.Figure;
-import tetris.model.figure.Shape;
+import tetris.model.event.FieldBottomListener;
+import tetris.model.shape.Figure;
+import tetris.model.shape.Shape;
 import tetris.navigation.Direction;
 
 /**
@@ -30,8 +30,6 @@ public class GameField {
     
     private Figure figure;
     
-    private GameFieldListener listener;
-    
     public GameField(int width, int height) {
         this.width = width; 
         this.height = height;
@@ -47,24 +45,14 @@ public class GameField {
         timer.start();
         timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
                 boolean isMoved = figure.move(Direction.DOWN);
                 
-                
-                
                 if(!isMoved) {
-                    fieldBottom.addShape(figure);
-                    removeFullRows();
-                    //change widths
-                    
-                    //change heights
-                    listener.figureStopped();
+                    fieldBottom.addFigure(figure);
                 }
             }
         });
-        
-    }
-    
-    private void removeFullRows() {
         
     }
     
@@ -72,8 +60,8 @@ public class GameField {
         this.figure = figure;
     }
     
-    public void addGameFieldListener(GameFieldListener listener ) {
-        this.listener = listener; 
+    public void addFieldBottomListener(FieldBottomListener fieldBottomListener ) {
+        fieldBottom.addFieldBottomListener(fieldBottomListener); 
     }
     
     public FieldBottom getFieldBottom() {

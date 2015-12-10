@@ -14,8 +14,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import tetris.model.event.GameBoardListener;
 import tetris.model.event.GameFieldEvent;
-import tetris.model.figure.Figure;
-import tetris.model.figure.Shape;
+import tetris.model.shape.Figure;
+import tetris.model.shape.Shape;
 
 /**
  *

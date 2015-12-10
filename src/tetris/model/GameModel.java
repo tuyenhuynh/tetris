@@ -5,18 +5,16 @@
  */
 package tetris.model;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.List;
+import tetris.model.event.FieldBottomListener;
 import tetris.model.event.FigureActionListener;
-import tetris.model.figure.Figure;
+import tetris.model.shape.Figure;
 import tetris.model.event.GameBoardListener;
 import tetris.model.event.GameFieldEvent;
-import tetris.model.event.GameFieldListener;
 import tetris.model.event.NextFigureBoardListener;
 import tetris.model.event.ScoreBoardListener;
-import tetris.model.figure.Shape;
-import tetris.navigation.Direction;
+import tetris.model.shape.Shape;
 
 /**
  *
@@ -45,10 +43,11 @@ public class GameModel {
         figureFactory = new FigureFactory(); 
         bonusCalculator  = new BonusCalculator();
         gameField = new GameField(10, 20);
-        gameField.addGameFieldListener(new GameFieldObserver());
+        gameField.addFieldBottomListener(new FieldBottomObserver());
     }
     
     public void start() {
+        score = 0; 
         activeFigure = figureFactory.createRandomFigure();
         activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
         activeFigure.setGameField(gameField);
@@ -79,7 +78,7 @@ public class GameModel {
         this.nextFigureBoardListener = nextFigureBoardListener;
     }
     
-    class GameFieldObserver implements GameFieldListener {
+    class FieldBottomObserver implements FieldBottomListener {
 
         @Override
         public void figureStopped() {
@@ -106,8 +105,9 @@ public class GameModel {
 
         @Override
         public void fullRowsRemoved(List<Shape> shapes) {
-            double bonus = bonusCalculator.calculateBonus(shapes);
-            scoreBoardListener.scoreChanged(bonus);
+            int bonus = bonusCalculator.calculateBonus(shapes);
+            score += bonus; 
+            scoreBoardListener.scoreChanged(score);
         }
     }
     

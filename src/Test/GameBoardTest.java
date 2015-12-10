@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import tetris.model.GameModel;
-import tetris.model.figure.Figure;
+import tetris.model.shape.Figure;
 
 /**
  *

@@ -10,5 +10,5 @@ package tetris.model.event;
  * @author tuyenhm
  */
 public interface ScoreBoardListener {
-    void scoreChanged(double delta);
+    void scoreChanged(int newScore);
 }

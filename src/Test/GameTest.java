@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import tetris.model.GameModel;
-import tetris.model.figure.Figure;
-import tetris.model.figure.IFigure;
+import tetris.model.shape.Figure;
+import tetris.model.shape.IFigure;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

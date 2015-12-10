@@ -5,12 +5,14 @@
  */
 package tetris.model.event;
 
-import tetris.model.shape.Figure;
+import java.util.List;
+import tetris.model.shape.Shape;
 
 /**
  *
  * @author tuyenhm
  */
-public interface GameBoardListener {
-    void boardStatusChanged(GameFieldEvent event);
+public interface FieldBottomListener {
+    void figureStopped();
+    void fullRowsRemoved(List<Shape> shapes);
 }
