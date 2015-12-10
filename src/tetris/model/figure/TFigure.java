@@ -11,7 +11,7 @@ import java.awt.Point;
  *
  * @author tuyenhm
  */
-public class TFigure extends Figure{
+public class TFigure extends Figure {
 
     private static final int [][][] cellsConfigs = 
         {

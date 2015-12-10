@@ -14,8 +14,6 @@ import tetris.model.figure.Shape;
  */
 public interface GameFieldListener {
     void figureStopped();
-    void figureMoved();
-    void figureRotated();
     void fullRowsRemoved(List<Shape> shapes);
     
 }

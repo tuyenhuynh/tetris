@@ -10,5 +10,6 @@ package tetris.model.event;
  * @author tuyenhm
  */
 public interface FigureActionListener {
+    public void figureRotated();
     public void figureMoved();
 }

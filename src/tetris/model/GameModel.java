@@ -105,18 +105,6 @@ public class GameModel {
         }
 
         @Override
-        public void figureMoved() {
-            GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
-            gameBoardListener.boardStatusChanged(event);
-        }
-
-        @Override
-        public void figureRotated() {
-            GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
-            gameBoardListener.boardStatusChanged(event);
-        }
-
-        @Override
         public void fullRowsRemoved(List<Shape> shapes) {
             double bonus = bonusCalculator.calculateBonus(shapes);
             scoreBoardListener.scoreChanged(bonus);
@@ -125,6 +113,13 @@ public class GameModel {
     
     class FigureActionObserver implements FigureActionListener{
 
+        
+        @Override
+        public void figureRotated() {
+            GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
+            gameBoardListener.boardStatusChanged(event);
+        }
+        
         @Override
         public void figureMoved() {
             GameFieldEvent event = new GameFieldEvent(gameField.getFieldBottom().getShapes(), activeFigure);
