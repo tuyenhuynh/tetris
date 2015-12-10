@@ -36,7 +36,7 @@ public class GameField {
         this.width = width; 
         this.height = height;
         fieldBottom = new FieldBottom();
-        timer = new Timer(700, null);
+        timer = new Timer(500, null);
     }
     
     public void disableFigure() {

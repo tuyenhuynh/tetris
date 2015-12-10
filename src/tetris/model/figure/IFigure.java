@@ -43,18 +43,19 @@ public class IFigure extends Figure{
     public void rotateByClockWise() {
         switch (state){
             case 1:
-                state = 1; 
-                position.x+=2;
-                position.y+=2;
+                state = 0; 
+                position.x+=1;
+                position.y-=1;
                 break;
             case 0:
-                state = 0; 
-                position.x-=2; 
+                state = 1; 
+                position.x+=2; 
                 position.y+=2;
                 break;
             default: 
                 return;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override
@@ -64,13 +65,16 @@ public class IFigure extends Figure{
                 state =1; 
                 position.x-=2;
                 position.y-=2;
+                break;
             case 1:
-                state =1;
-                position.x+=2;
-                position.y-=2;
+                state =0;
+                position.x-=1;
+                position.y+=1;
+                break;
             default: 
                 return;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override 

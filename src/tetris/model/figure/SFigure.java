@@ -54,6 +54,7 @@ public class SFigure extends Figure{
                 position.y+=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override
@@ -70,6 +71,7 @@ public class SFigure extends Figure{
                 position.y+=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
     
     @Override 

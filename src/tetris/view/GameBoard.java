@@ -76,7 +76,7 @@ public class GameBoard  extends JPanel{
     private void drawSquare(Graphics g, int x, int y, int size) {
         int realX = size * x ; 
         int realY = size * y ;
-        g.drawRect(realX, realY, size - 1, size - 1);
+        g.fillRect(realX, realY, size - 1, size - 1);
     }
     
     private void drawShape(Graphics g, Shape shape) {

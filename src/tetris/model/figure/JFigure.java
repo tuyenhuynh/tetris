@@ -72,6 +72,7 @@ public class JFigure extends Figure{
                 position.x+=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override
@@ -94,6 +95,7 @@ public class JFigure extends Figure{
                 position.x -=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override 

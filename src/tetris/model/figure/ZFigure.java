@@ -54,10 +54,7 @@ public class ZFigure extends Figure{
                 position.y+=1;
                 break;
         }
-        
-        if(isRotated()) {
-            listener.figureMoved();
-        }
+        cells = cellsConfigs[state];
         
     }
 
@@ -75,6 +72,7 @@ public class ZFigure extends Figure{
                 position.y+=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
     
     @Override

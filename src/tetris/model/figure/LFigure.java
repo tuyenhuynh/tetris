@@ -71,6 +71,7 @@ public class LFigure extends Figure{
                 position.x+=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override
@@ -93,6 +94,7 @@ public class LFigure extends Figure{
                 position.x -=1;
                 break;
         }
+        cells = cellsConfigs[state];
     }
 
     @Override 

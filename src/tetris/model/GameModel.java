@@ -79,7 +79,6 @@ public class GameModel {
         this.nextFigureBoardListener = nextFigureBoardListener;
     }
     
-    
     class GameFieldObserver implements GameFieldListener {
 
         @Override
