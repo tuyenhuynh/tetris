@@ -44,8 +44,8 @@ public class IFigure extends Figure{
         switch (state){
             case 1:
                 state = 0; 
-                position.x+=1;
-                position.y-=1;
+                position.x-=2;
+                position.y-=2;
                 break;
             case 0:
                 state = 1; 
@@ -64,13 +64,13 @@ public class IFigure extends Figure{
         switch (state){
             case 0 :
                 state =1; 
-                position.x-=2;
-                position.y-=2;
+                position.x+=2;
+                position.y+=2;
                 break;
             case 1:
                 state =0;
-                position.x-=1;
-                position.y+=1;
+                position.x-=2;
+                position.y-=2;
                 break;
             default: 
                 return;
