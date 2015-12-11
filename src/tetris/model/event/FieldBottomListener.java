@@ -15,4 +15,5 @@ import tetris.model.shape.Shape;
 public interface FieldBottomListener {
     void figureStopped();
     void fullRowsRemoved(List<Shape> shapes);
+    void bottomOverload();
 }

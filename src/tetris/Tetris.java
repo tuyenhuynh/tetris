@@ -7,7 +7,7 @@ package tetris;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import tetris.view.GamePanel;
+import tetris.view.GameBoard;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Tetris {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JFrame app = new GamePanel();
+                JFrame app = new GameBoard();
                 app.setVisible(true);
             }
         });

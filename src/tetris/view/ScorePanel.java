@@ -12,22 +12,17 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import tetris.model.event.ScoreBoardListener;
 
 /**
  *
  * @author tuyenhm
  */
-public class ScoreBoard extends JPanel{
-    
-    private double score;
+public class ScorePanel extends JPanel{
     
     JLabel headerLabel = new JLabel("SCORE");
     JLabel scoreLabel = new JLabel("0");
     
-    ScoreBoardListener listener; 
-    
-    public ScoreBoard() {
+    public ScorePanel() {
         setForeground(Color.WHITE);
         
         Dimension size = new Dimension(100, 70);
@@ -40,7 +35,6 @@ public class ScoreBoard extends JPanel{
         setLayout(layout);
         add(headerLabel, BorderLayout.NORTH);
         add(scoreLabel, BorderLayout.CENTER);
-        score = 0 ; 
     }
     
     @Override
@@ -48,13 +42,7 @@ public class ScoreBoard extends JPanel{
         
     }
     
-    class ScoreBoardObserver implements ScoreBoardListener {
-
-        @Override
-        public void scoreChanged(int newScore) {
-            scoreLabel.setText(Integer.toString(newScore));
-        }
-        
+    public void setScore(int score){
+        scoreLabel.setText(Integer.toString(score));
     }
-    
 }

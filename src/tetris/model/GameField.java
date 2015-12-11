@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import tetris.model.event.FieldBottomListener;
 import tetris.model.shape.Figure;
-import tetris.model.shape.Shape;
 import tetris.navigation.Direction;
 
 /**
@@ -33,16 +32,9 @@ public class GameField {
     public GameField(int width, int height) {
         this.width = width; 
         this.height = height;
-        fieldBottom = new FieldBottom();
+        fieldBottom = new FieldBottom(width, height);
         timer = new Timer(500, null);
-    }
-    
-    public void disableFigure() {
-        timer.stop();
-    }
-    
-    public void activateFigure() {
-        timer.start();
+        
         timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
@@ -53,7 +45,18 @@ public class GameField {
                 }
             }
         });
-        
+    }
+    
+    public void clearBottom () {
+        fieldBottom.clear();
+    }
+    
+    public void deactivateFigure() {
+        timer.stop();
+    }
+    
+    public void activateFigure() {
+        timer.start();
     }
     
     public void setActiveFigure(Figure figure) {
@@ -75,6 +78,5 @@ public class GameField {
     public int getHeight() {
         return height;
     }
-    
     
 }

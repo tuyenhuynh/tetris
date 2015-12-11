@@ -16,45 +16,64 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import tetris.model.GameModel;
+import tetris.model.event.GameFieldEvent;
+import tetris.model.event.GameListener;
+import tetris.model.shape.Figure;
 import tetris.navigation.Direction;
-import tetris.view.GameBoard.GameBoardObserver;
 
 /**
  *
  * @author tuyenhm
  */
-public class GamePanel extends JFrame{
+public class GameBoard extends JFrame{
     
     private static final int width = 10; 
     private static final int height = 20; 
-    private GameBoard gameBoard = new GameBoard(width, height); 
-    private ScoreBoard scoreBoard= new ScoreBoard();
-    private NextFigureBoard nextFigureBoard = new NextFigureBoard(); 
+    private GridPanel gridPanel = new GridPanel(width, height); 
+    private ScorePanel scorePanel= new ScorePanel();
+    private NextFigurePanel nextFigurePanel = new NextFigurePanel(); 
     private GameModel model = new GameModel();  
     private JButton btnStart = new JButton("Start");
     private JButton btnPause = new JButton("Pause"); 
+    private JButton btnNewGame = new JButton("New Game"); 
     
-    
-    public GamePanel (){
+    public GameBoard (){
+        
         getContentPane().setBackground(new Color(3,46,119));
         setupLayout();
-        model.addGameBoardListener(gameBoard.new GameBoardObserver());
-        model.addNextFigureBoardListener(nextFigureBoard.new NextFigureBoardObserver());
-        model.addScoreBoardListener(scoreBoard.new ScoreBoardObserver());
-        gameBoard.addKeyListener(new KeyObserver());
+        model.addGameListener(new GameObserver());
         addKeyListener(new KeyObserver());
+        btnStart.setEnabled(false);
+        btnPause.setEnabled(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
         btnStart.addActionListener( new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.start();
-                btnStart.setEnabled(false);
+                startGame();     
             }
         });
+        
+        btnPause.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopGame(); 
+            }
+        });
+        
+        btnNewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newGame(); 
+            }
+        });
+        
         //important
+       // setFocusable(true);
         setFocusable(true);
         pack();
         
@@ -69,33 +88,69 @@ public class GamePanel extends JFrame{
         gc.weighty =1.0;
         gc.gridx = 0; 
         gc.gridy = 0; 
-        gc.gridheight = 3;
+        gc.gridheight = 5;
         gc.gridwidth  = 1; 
-        add(gameBoard, gc);
+        add(gridPanel, gc);
         
         
         gc.gridheight = 1; 
         
         gc.gridx = 1;         
         gc.gridy = 0; 
+        add(btnNewGame, gc);
+        
+        gc.gridx = 1;         
+        gc.gridy = 1; 
         add(btnStart, gc);
         
-        gc.gridy = 1; 
+        gc.gridx = 1;         
+        gc.gridy = 2; 
+        add(btnPause, gc);
+        
+        
+        gc.gridy = 3; 
         gc.insets = new Insets(10, 10, 10, 10);
         
-        add(scoreBoard, gc);
-        gc.gridy = 2; 
-        add(new ScoreBoard(), gc);
+        add(scorePanel, gc);
+        
+        gc.gridy = 4; 
+        add(nextFigurePanel, gc);
         
         Dimension size = new Dimension(500, 700);
         setMinimumSize(size);
         setMaximumSize(size);
     }
     
+    private void startGame() {
+        model.startGame();
+        btnStart.setEnabled(false);
+        btnPause.setEnabled(true);
+        getFocus();
+    }
+    
+    private void stopGame() {
+        model.stopGame();
+        btnPause.setEnabled(false);
+        btnStart.setEnabled(true);
+        getFocus();
+    }
+    
+    private void newGame() {
+        model.createNewGame();
+        startGame(); 
+        getFocus();
+    }
+    
+    private void getFocus() {
+        requestFocus();
+        requestFocusInWindow();
+    }
+    
     class KeyObserver extends KeyAdapter {
         
         @Override
         public void keyPressed(KeyEvent e) {
+            System.out.println("Key pressed"); 
             int keyCode = e.getKeyCode() ; 
             Direction direction = Direction.NONE;
             switch (keyCode) {
@@ -115,12 +170,41 @@ public class GamePanel extends JFrame{
                     return ; 
             }
             if(direction != Direction.NONE) {
+                Figure activeFigure = model.getActiveFigure() ; 
                 if(direction == Direction.UP) {
-                    model.getActiveFigure().rotateByClockWise();
+                    activeFigure.rotateByClockWise();
                 } else {
-                    model.getActiveFigure().move(direction);
+                    
+                    activeFigure.move(direction);
                 }
             }
         } 
     }
+    
+    class GameObserver implements GameListener {
+
+        @Override
+        public void gridBoardChanged(GameFieldEvent event) {
+            gridPanel.updateGridStatus(event);
+        }
+
+        @Override
+        public void nextFigureChanged(Figure nextFigure) {
+            nextFigurePanel.setFigure(nextFigure);
+        }
+
+        @Override
+        public void scoreChanged(int newScore) {
+            scorePanel.setScore(newScore);
+        }
+
+        @Override
+        public void gameOver() {
+            btnStart.setEnabled(false);
+            btnPause.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Game Over!!!");
+        }
+        
+    }
+    
 }

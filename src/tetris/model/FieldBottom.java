@@ -19,30 +19,41 @@ import tetris.model.shape.Shape;
  */
 public class FieldBottom {
     
-    private static final int WIDTH = 10;
+    private int maxWidth;
     
-    private static final int ROW_COUNT = 20; 
+    private int maxHeight;
+    
     
     private List<Shape> shapes = new ArrayList<>();
     
-    private int[] widths = new int [ROW_COUNT]; 
+    private int[] widths;
     
     private FieldBottomListener listener; 
     
+    public FieldBottom (int maxWidth, int maxHeight) {
+        this.maxHeight = maxHeight; 
+        this.maxWidth = maxWidth;
+        widths = new int [maxHeight]; 
+    }
+    
     public void addFigure(Figure figure) {
-        shapes.add(figure);
-        List<Point> points = figure.findNotEmptyCells();
-        for(Point point :  points ) {
-            int y = point.y; 
-            widths[y] ++; 
-        }
-        
-        List<Shape>removedShapes = removeFullRows();
-        
-        listener.figureStopped();
-        
-        if(!removedShapes.isEmpty()) {
-            listener.fullRowsRemoved(removedShapes);
+        if(figure.getPosition().y > maxHeight -1){
+            listener.bottomOverload();
+        }else {
+            shapes.add(figure);
+            List<Point> points = figure.findNotEmptyCells();
+            for(Point point :  points ) {
+                int y = point.y; 
+                widths[y] ++; 
+            }
+
+            List<Shape>removedShapes = removeFullRows();
+
+            listener.figureStopped();
+
+            if(!removedShapes.isEmpty()) {
+                listener.fullRowsRemoved(removedShapes);
+            }
         }
     }
     
@@ -126,10 +137,10 @@ public class FieldBottom {
             }
             
             //update widths; 
-            for( int i = lowY; i < ROW_COUNT - fullRowCount; ++i) {
+            for( int i = lowY; i < maxHeight - fullRowCount; ++i) {
                 widths[i] = widths[i+fullRowCount];
             }
-            for(int i = ROW_COUNT - fullRowCount ;  i < ROW_COUNT; ++i ) {
+            for(int i = maxHeight - fullRowCount ;  i < maxHeight; ++i ) {
                 widths[i] = 0 ; 
             }
             
@@ -146,7 +157,7 @@ public class FieldBottom {
     private List<Integer> findFullRows() {
         List<Integer> fullRows = new ArrayList<>();
         for(int i = 0; i < widths.length ; ++i) {
-            if(widths[i] == WIDTH){
+            if(widths[i] == maxWidth){
                 fullRows.add(i);
             }
         }
@@ -155,6 +166,21 @@ public class FieldBottom {
     
     public void addFieldBottomListener(FieldBottomListener listener) {
         this.listener = listener;
+    }
+    
+    public void setMaxWidth(int maxWidth){
+        this.maxWidth = maxWidth;
+    }
+    
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+    
+    public void clear() {
+        shapes.clear();
+        for( int i = 0 ; i < maxHeight ; ++i ) {
+            widths[i] = 0 ; 
+        }
     }
     
 }

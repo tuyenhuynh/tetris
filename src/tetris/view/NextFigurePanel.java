@@ -9,19 +9,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import tetris.model.event.NextFigureBoardListener;
 import tetris.model.shape.Figure;
 
 /**
  *
  * @author tuyenhm
  */
-public class NextFigureBoard extends JPanel{
+public class NextFigurePanel extends JPanel{
     
     private Figure figure; 
     
-    public NextFigureBoard() {
-        Dimension d = new Dimension(100, 150); 
+    public NextFigurePanel() {
+        Dimension d = new Dimension(200, 150); 
         setMaximumSize(d);
         setMinimumSize(d);
         setPreferredSize(d);
@@ -29,6 +28,7 @@ public class NextFigureBoard extends JPanel{
     
     public void setFigure(Figure figure) {
         this.figure = figure; 
+        repaint();
     }
     
     @Override
@@ -42,10 +42,10 @@ public class NextFigureBoard extends JPanel{
             for(int i = 0 ; i < figure.getHeight(); ++i) {
                 for(int j = 0 ; j < figure.getWidth() ; ++j) {
                     if(figure.getCellValue(i, j) != 0) {
-                        g.drawRect(margin_left + j*CELL_SIZE,
+                        g.fillRect(margin_left + j*CELL_SIZE,
                                 margin_top + i *CELL_SIZE, 
-                                margin_left + (j+1)*CELL_SIZE,
-                                margin_top + (i+1)*CELL_SIZE);
+                                CELL_SIZE,
+                                CELL_SIZE);
                         
                     }
                 }
@@ -53,13 +53,10 @@ public class NextFigureBoard extends JPanel{
         }
     }
     
-    class NextFigureBoardObserver implements NextFigureBoardListener{
-
-        @Override
-        public void nextFigureChanged(Figure nextFigure) {
-            figure = nextFigure;
-            repaint();
-        }
-        
+    private void drawSquare(Graphics g, int x, int y, int size) {
+        int realX = size * x ; 
+        int realY = size * y ;
+        g.fillRect(realX, realY, size - 1, size - 1);
     }
+    
 }

@@ -8,11 +8,9 @@ package tetris.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
-import tetris.model.event.GameBoardListener;
 import tetris.model.event.GameFieldEvent;
 import tetris.model.shape.Figure;
 import tetris.model.shape.Shape;
@@ -21,7 +19,7 @@ import tetris.model.shape.Shape;
  *
  * @author tuyenhm
  */
-public class GameBoard  extends JPanel{
+public class GridPanel  extends JPanel{
     
     private final int width; 
     private final int height; 
@@ -32,14 +30,22 @@ public class GameBoard  extends JPanel{
     
     private List<Shape> shapes = new ArrayList<>(); 
     
-    public GameBoard (int width, int height) {
+    public GridPanel (int width, int height) {
         this.width = width; 
         this.height = height; 
         Dimension size = new Dimension(width*CELL_SIZE, height*CELL_SIZE);
         setMaximumSize(size);
         setMinimumSize(size);
         setPreferredSize(size);
+        
     }
+    
+    public void updateGridStatus(GameFieldEvent event) {
+        activeFigure = event.getActiveFigure(); 
+        shapes = event.getShapes();
+        repaint();
+    }
+    
     
     @Override
     public void paintComponent(Graphics g) {
@@ -87,17 +93,6 @@ public class GameBoard  extends JPanel{
                 }
             }
         }
-    }
-    
-    class GameBoardObserver implements GameBoardListener {
-
-        @Override
-        public void boardStatusChanged(GameFieldEvent event) {
-            activeFigure = event.getActiveFigure(); 
-            shapes = event.getShapes();
-            repaint();
-        }
-
     }
     
 }

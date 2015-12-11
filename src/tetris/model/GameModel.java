@@ -10,10 +10,8 @@ import java.util.List;
 import tetris.model.event.FieldBottomListener;
 import tetris.model.event.FigureActionListener;
 import tetris.model.shape.Figure;
-import tetris.model.event.GameBoardListener;
 import tetris.model.event.GameFieldEvent;
-import tetris.model.event.NextFigureBoardListener;
-import tetris.model.event.ScoreBoardListener;
+import tetris.model.event.GameListener;
 import tetris.model.shape.Shape;
 
 /**
@@ -26,9 +24,7 @@ public class GameModel {
     private FigureFactory figureFactory; 
     private Figure activeFigure; 
     private Figure nextFigure; 
-    private GameBoardListener gameBoardListener;
-    private ScoreBoardListener scoreBoardListener;
-    private NextFigureBoardListener nextFigureBoardListener;
+    private GameListener gameListener; 
     private GameField gameField; 
     private BonusCalculator bonusCalculator;
     private FigureActionListener figureActionListener;
@@ -46,16 +42,25 @@ public class GameModel {
         gameField.addFieldBottomListener(new FieldBottomObserver());
     }
     
-    public void start() {
+    public void startGame() {
+        gameField.activateFigure();
+    }
+    
+    public void stopGame() {
+        gameField.deactivateFigure();
+    }
+    
+    public void createNewGame() {
         score = 0; 
         activeFigure = figureFactory.createRandomFigure();
         activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
         activeFigure.setGameField(gameField);
         nextFigure = figureFactory.createRandomFigure();
         activeFigure.addActionListener(new FigureActionObserver());
-        nextFigureBoardListener.nextFigureChanged(nextFigure);
+        gameListener.nextFigureChanged(nextFigure);
         gameField.setActiveFigure(activeFigure);
-        gameField.activateFigure();
+        gameField.clearBottom();
+        startGame();
     }
     
     public Figure  getActiveFigure() {
@@ -66,16 +71,8 @@ public class GameModel {
         return false; 
     }
     
-     public void addGameBoardListener(GameBoardListener gameBoardListener) {
-        this.gameBoardListener = gameBoardListener;
-    }
-
-    public void addScoreBoardListener(ScoreBoardListener scoreBoardListener) {
-        this.scoreBoardListener = scoreBoardListener;
-    }
-
-    public void addNextFigureBoardListener(NextFigureBoardListener nextFigureBoardListener) {
-        this.nextFigureBoardListener = nextFigureBoardListener;
+     public void addGameListener(GameListener gameListener) {
+        this.gameListener = gameListener;
     }
     
     class FieldBottomObserver implements FieldBottomListener {
@@ -96,34 +93,39 @@ public class GameModel {
             //next figure
             nextFigure = newFigure;
             //render next figure
-            nextFigureBoardListener.nextFigureChanged(nextFigure);
+            gameListener.nextFigureChanged(nextFigure);
             
             //TODO: how to client know about new figure ????
             GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
-            gameBoardListener.boardStatusChanged(event);
+            gameListener.gridBoardChanged(event);
         }
 
         @Override
         public void fullRowsRemoved(List<Shape> shapes) {
             int bonus = bonusCalculator.calculateBonus(shapes);
             score += bonus; 
-            scoreBoardListener.scoreChanged(score);
+            gameListener.scoreChanged(score);
+        }
+
+        @Override
+        public void bottomOverload() {
+            gameField.deactivateFigure();
+            gameListener.gameOver();
         }
     }
     
     class FigureActionObserver implements FigureActionListener{
 
-        
         @Override
         public void figureRotated() {
             GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
-            gameBoardListener.boardStatusChanged(event);
+            gameListener.gridBoardChanged(event);
         }
         
         @Override
         public void figureMoved() {
             GameFieldEvent event = new GameFieldEvent(gameField.getFieldBottom().getShapes(), activeFigure);
-            gameBoardListener.boardStatusChanged(event);
+            gameListener.gridBoardChanged(event);
         }
     }
     
