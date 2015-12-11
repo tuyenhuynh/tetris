@@ -7,97 +7,120 @@ package tetris.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JPanel;
-import tetris.model.event.GameBoardListener;
-import tetris.model.event.GameFieldEvent;
-import tetris.model.shape.Figure;
-import tetris.model.shape.Shape;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import tetris.model.GameModel;
+import tetris.navigation.Direction;
+import tetris.view.GameBoard.GameBoardObserver;
 
 /**
  *
  * @author tuyenhm
  */
-public class GameBoard  extends JPanel{
+public class GamePanel extends JFrame{
     
-    private final int width; 
-    private final int height; 
+    private static final int width = 10; 
+    private static final int height = 20; 
+    private GameBoard gameBoard = new GameBoard(width, height); 
+    private ScoreBoard scoreBoard= new ScoreBoard();
+    private NextFigureBoard nextFigureBoard = new NextFigureBoard(); 
+    private GameModel model = new GameModel();  
+    private JButton btnStart = new JButton("Start");
+    private JButton btnPause = new JButton("Pause"); 
     
-    private static final int CELL_SIZE =  30;
     
-    private Figure activeFigure = null; 
+    public GamePanel (){
+        getContentPane().setBackground(new Color(3,46,119));
+        setupLayout();
+        model.addGameBoardListener(gameBoard.new GameBoardObserver());
+        model.addNextFigureBoardListener(nextFigureBoard.new NextFigureBoardObserver());
+        model.addScoreBoardListener(scoreBoard.new ScoreBoardObserver());
+        gameBoard.addKeyListener(new KeyObserver());
+        addKeyListener(new KeyObserver());
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        btnStart.addActionListener( new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.start();
+                btnStart.setEnabled(false);
+            }
+        });
+        //important
+        setFocusable(true);
+        pack();
+        
+    }
     
-    private List<Shape> shapes = new ArrayList<>(); 
-    
-    public GameBoard (int width, int height) {
-        this.width = width; 
-        this.height = height; 
-        Dimension size = new Dimension(width*CELL_SIZE, height*CELL_SIZE);
-        setMaximumSize(size);
+    private void setupLayout() {
+        GridBagLayout layout  = new GridBagLayout();
+        GridBagConstraints gc = new GridBagConstraints();
+        setLayout(layout); 
+        
+        gc.weightx= 1.0; 
+        gc.weighty =1.0;
+        gc.gridx = 0; 
+        gc.gridy = 0; 
+        gc.gridheight = 3;
+        gc.gridwidth  = 1; 
+        add(gameBoard, gc);
+        
+        
+        gc.gridheight = 1; 
+        
+        gc.gridx = 1;         
+        gc.gridy = 0; 
+        add(btnStart, gc);
+        
+        gc.gridy = 1; 
+        gc.insets = new Insets(10, 10, 10, 10);
+        
+        add(scoreBoard, gc);
+        gc.gridy = 2; 
+        add(new ScoreBoard(), gc);
+        
+        Dimension size = new Dimension(500, 700);
         setMinimumSize(size);
-        setPreferredSize(size);
+        setMaximumSize(size);
     }
     
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.BLUE);
-        for(int i = 1 ; i < width; ++i ){
-            g.drawLine(i*CELL_SIZE, 0, i*CELL_SIZE, height*CELL_SIZE);
-        }
-        for(int i = 1 ; i < height ; ++i) {
-            g.drawLine(0, i*CELL_SIZE, width*CELL_SIZE, i*CELL_SIZE);
-        }
-        //paint border 
-        g.setColor(new Color(1, 168, 213));
-        g.drawLine(0, 0, 300, 0);
-        g.drawLine(0, 0, 0, 600);
-        g.drawLine(299, 0, 299, 600);
-        g.drawLine(0, 599, 300, 599);
-        //#002039
-        Color c = new Color (47, 79, 79);
-        setBackground(new Color(0, 28, 49));
+    class KeyObserver extends KeyAdapter {
         
-        g.setColor(Color.red);
-        
-        if(activeFigure != null ) {
-            drawShape(g, activeFigure);
-        }
-        
-        for(Shape shape : shapes) {
-            drawShape(g, shape);
-        }
-        
-    }
-    
-    private void drawSquare(Graphics g, int x, int y, int size) {
-        int realX = size * x ; 
-        int realY = size * y ;
-        g.fillRect(realX, realY, size - 1, size - 1);
-    }
-    
-    private void drawShape(Graphics g, Shape shape) {
-        for(int i = 0 ; i < shape.getHeight() ; ++i) {
-            for( int j = 0 ; j < shape.getWidth() ; ++j) {
-                if(shape.getCellValue(i, j) == 1) {
-                    drawSquare(g, shape.getPosition().x + j, height - (shape.getPosition().y - i) -1, CELL_SIZE);
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode() ; 
+            Direction direction = Direction.NONE;
+            switch (keyCode) {
+                case KeyEvent.VK_DOWN :
+                    direction = Direction.DOWN;
+                    break; 
+                case KeyEvent.VK_LEFT :
+                    direction = Direction.LEFT;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    direction = Direction.RIGHT;
+                    break;
+                case KeyEvent.VK_UP :
+                    direction = Direction.UP;
+                    break;
+                default:
+                    return ; 
+            }
+            if(direction != Direction.NONE) {
+                if(direction == Direction.UP) {
+                    model.getActiveFigure().rotateByClockWise();
+                } else {
+                    model.getActiveFigure().move(direction);
                 }
             }
-        }
+        } 
     }
-    
-    class GameBoardObserver implements GameBoardListener {
-
-        @Override
-        public void boardStatusChanged(GameFieldEvent event) {
-            activeFigure = event.getActiveFigure(); 
-            shapes = event.getShapes();
-            repaint();
-        }
-
-    }
-    
 }

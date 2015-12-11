@@ -11,6 +11,9 @@ import tetris.model.shape.Figure;
  *
  * @author tuyenhm
  */
-public interface GameBoardListener {
-    void boardStatusChanged(GameFieldEvent event);
+public interface GameListener {
+    void gridBoardChanged(GameFieldEvent event);
+    void nextFigureChanged(Figure nextFigure);
+    void scoreChanged(int newScore);
+    void gameOver();
 }
