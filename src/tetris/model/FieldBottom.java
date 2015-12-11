@@ -38,12 +38,12 @@ public class FieldBottom {
         }
         
         List<Shape>removedShapes = removeFullRows();
-        if(removedShapes.size() == 0) {
-            listener.figureStopped();
-        }else {
+        
+        listener.figureStopped();
+        
+        if(!removedShapes.isEmpty()) {
             listener.fullRowsRemoved(removedShapes);
         }
-        
     }
     
     public List<Shape> getShapes () {
@@ -110,7 +110,6 @@ public class FieldBottom {
                                 }
                             }
                         }
-                        
                     }
                 }
             }
@@ -134,7 +133,13 @@ public class FieldBottom {
                 widths[i] = 0 ; 
             }
             
+            System.out.println("Widths changed"); 
+            
+            for(int width  : widths) {
+                System.out.println(width);
+            }
         }
+        fullRows.clear();
         return  removedShapes;
     }
     
