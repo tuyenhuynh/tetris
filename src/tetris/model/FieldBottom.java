@@ -143,12 +143,6 @@ public class FieldBottom {
             for(int i = maxHeight - fullRowCount ;  i < maxHeight; ++i ) {
                 widths[i] = 0 ; 
             }
-            
-            System.out.println("Widths changed"); 
-            
-            for(int width  : widths) {
-                System.out.println(width);
-            }
         }
         fullRows.clear();
         return  removedShapes;

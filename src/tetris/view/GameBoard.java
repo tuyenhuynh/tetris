@@ -72,8 +72,6 @@ public class GameBoard extends JFrame{
             }
         });
         
-        //important
-       // setFocusable(true);
         setFocusable(true);
         pack();
         
@@ -150,7 +148,6 @@ public class GameBoard extends JFrame{
         
         @Override
         public void keyPressed(KeyEvent e) {
-            System.out.println("Key pressed"); 
             int keyCode = e.getKeyCode() ; 
             Direction direction = Direction.NONE;
             switch (keyCode) {
