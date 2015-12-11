@@ -6,6 +6,7 @@
 package tetris.model.shape;
 
 import java.awt.Point;
+import org.apache.log4j.Logger;
 import tetris.model.GameField;
 import tetris.model.event.FigureActionListener;
 import tetris.navigation.Direction;
@@ -15,6 +16,9 @@ import tetris.navigation.Direction;
  * @author tuyenhm
  */
 public abstract class Figure extends Shape {
+    
+    private static final Logger logger = Logger.getLogger(Figure.class);
+    
     protected int state;
     
     GameField gameField; 
@@ -53,6 +57,7 @@ public abstract class Figure extends Shape {
             }
         }
         listener.figureMoved();
+        logger.info("Figure moved");
         return true; 
     }
     
@@ -60,7 +65,7 @@ public abstract class Figure extends Shape {
         this.gameField = gameField;
     }
     
-    boolean isInGameField() {
+    protected boolean isInGameField() {
         //rotate right after appearing of new figure
         int x = this.position.x; 
         int y = this.position.y; 
@@ -96,6 +101,7 @@ public abstract class Figure extends Shape {
         }
         if(isRotated) {
             listener.figureRotated();
+            logger.info("Figure rotated");
         } 
     }
     

@@ -7,6 +7,7 @@ package tetris.model;
 
 import java.awt.Point;
 import java.util.List;
+import org.apache.log4j.Logger;
 import tetris.model.event.FieldBottomListener;
 import tetris.model.event.FigureActionListener;
 import tetris.model.shape.Figure;
@@ -19,7 +20,7 @@ import tetris.model.shape.Shape;
  * @author tuyenhm
  */
 public class GameModel {
-    
+    private static final Logger logger = Logger.getLogger(GameModel.class);
     private int score; 
     private FigureFactory figureFactory; 
     private Figure activeFigure; 
@@ -27,13 +28,8 @@ public class GameModel {
     private GameListener gameListener; 
     private GameField gameField; 
     private BonusCalculator bonusCalculator;
-    private FigureActionListener figureActionListener;
-    
-    
     private static final int WIDTH = 10; 
     private static final int HEIGHT = 20;
-    
-    
     
     public GameModel() {
         figureFactory = new FigureFactory(); 
@@ -67,10 +63,6 @@ public class GameModel {
         return this.activeFigure;
     }
     
-    boolean isGameOver() {
-        return false; 
-    }
-    
      public void addGameListener(GameListener gameListener) {
         this.gameListener = gameListener;
     }
@@ -98,6 +90,7 @@ public class GameModel {
             //TODO: how to client know about new figure ????
             GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
             gameListener.gridBoardChanged(event);
+            logger.info("Figure stopped. Rerendering grid");
         }
 
         @Override
@@ -105,27 +98,31 @@ public class GameModel {
             int bonus = bonusCalculator.calculateBonus(shapes);
             score += bonus; 
             gameListener.scoreChanged(score);
+            logger.info("Score changed");
         }
 
         @Override
         public void bottomOverload() {
             gameField.deactivateFigure();
             gameListener.gameOver();
+            logger.info("Game over");
         }
     }
     
     class FigureActionObserver implements FigureActionListener{
-
+        
         @Override
         public void figureRotated() {
             GameFieldEvent event = new GameFieldEvent (gameField.getFieldBottom().getShapes(), activeFigure);
             gameListener.gridBoardChanged(event);
+            logger.info("Figure rotated. Rerendering grid");
         }
         
         @Override
         public void figureMoved() {
             GameFieldEvent event = new GameFieldEvent(gameField.getFieldBottom().getShapes(), activeFigure);
             gameListener.gridBoardChanged(event);
+            logger.info("Figure moved. Rerendering grid");
         }
     }
     

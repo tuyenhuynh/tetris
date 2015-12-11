@@ -5,6 +5,7 @@
  */
 package tetris.model;
 
+import com.sun.istack.internal.logging.Logger;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,11 @@ import tetris.model.shape.Shape;
  */
 public class FieldBottom {
     
+    private static final Logger logger = Logger.getLogger(FieldBottom.class);
+    
     private int maxWidth;
     
     private int maxHeight;
-    
     
     private List<Shape> shapes = new ArrayList<>();
     
@@ -39,6 +41,7 @@ public class FieldBottom {
     public void addFigure(Figure figure) {
         if(figure.getPosition().y > maxHeight -1){
             listener.bottomOverload();
+            logger.info("Bottom overload");
         }else {
             shapes.add(figure);
             List<Point> points = figure.findNotEmptyCells();
@@ -50,9 +53,12 @@ public class FieldBottom {
             List<Shape>removedShapes = removeFullRows();
 
             listener.figureStopped();
+            logger.info("Figured stopped");
+            
 
             if(!removedShapes.isEmpty()) {
                 listener.fullRowsRemoved(removedShapes);
+                logger.info("Full rows removed");
             }
         }
     }
