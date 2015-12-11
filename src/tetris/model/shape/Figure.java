@@ -42,8 +42,6 @@ public abstract class Figure extends Shape {
         
         setPosition(newPosition);
         
-        System.out.println(oldPos.y); 
-        
         if(!isInGameField()) {
             setPosition(oldPos);
             return false; 

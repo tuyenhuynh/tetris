@@ -118,7 +118,6 @@ public class GamePanel extends JFrame{
                 if(direction == Direction.UP) {
                     model.getActiveFigure().rotateByClockWise();
                 } else {
-                    System.out.println("Moved by user"); 
                     model.getActiveFigure().move(direction);
                 }
             }
