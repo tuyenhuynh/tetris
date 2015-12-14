@@ -7,8 +7,10 @@ package tetris.model.shape;
 
 import java.awt.Point;
 import org.apache.log4j.Logger;
+import tetris.model.FieldBottom;
 import tetris.model.GameField;
 import tetris.model.event.FigureActionListener;
+import tetris.model.event.GameFieldEvent;
 import tetris.navigation.Direction;
 
 /**
@@ -56,7 +58,12 @@ public abstract class Figure extends Shape {
                 return false;
             }
         }
-        listener.figureMoved();
+        
+        FieldBottom bottom = gameField.getFieldBottom();
+        GameFieldEvent event = new GameFieldEvent(this);
+        event.setShapes(bottom.getShapes());
+        event.setActiveFigure(this);
+        listener.figureMoved(event);
         logger.info("Figure moved");
         return true; 
     }
@@ -99,8 +106,13 @@ public abstract class Figure extends Shape {
                 break;
             }
         }
-        if(isRotated) {
-            listener.figureRotated();
+        
+        if(isRotated){
+            FieldBottom bottom = gameField.getFieldBottom();
+            GameFieldEvent event = new GameFieldEvent(this);
+            event.setShapes(bottom.getShapes());
+            event.setActiveFigure(this);
+            listener.figureRotated(event);
             logger.info("Figure rotated");
         } 
     }

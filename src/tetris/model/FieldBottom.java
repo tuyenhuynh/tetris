@@ -9,7 +9,9 @@ import com.sun.istack.internal.logging.Logger;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import tetris.model.event.FieldBottomEvent;
 import tetris.model.event.FieldBottomListener;
+import tetris.model.event.RemoveShapesEvent;
 import tetris.model.shape.AloneCell;
 import tetris.model.shape.Figure;
 import tetris.model.shape.Shape;
@@ -40,7 +42,9 @@ public class FieldBottom {
     
     public void addFigure(Figure figure) {
         if(figure.getPosition().y > maxHeight -1){
-            listener.bottomOverload();
+            FieldBottomEvent evt = new FieldBottomEvent(this);
+            evt.setShapes(shapes);
+            listener.bottomOverload(evt);
             logger.info("Bottom overload");
         }else {
             shapes.add(figure);
@@ -51,13 +55,16 @@ public class FieldBottom {
             }
 
             List<Shape>removedShapes = removeFullRows();
-
-            listener.figureStopped();
+            FieldBottomEvent evt = new FieldBottomEvent(this);
+            evt.setShapes(shapes);
+            listener.figureStopped(evt);
             logger.info("Figured stopped");
             
 
             if(!removedShapes.isEmpty()) {
-                listener.fullRowsRemoved(removedShapes);
+                RemoveShapesEvent removeShapesEvent = new RemoveShapesEvent(this);
+                removeShapesEvent.setRemovedShapes(removedShapes);
+                listener.fullRowsRemoved(removeShapesEvent);
                 logger.info("Full rows removed");
             }
         }

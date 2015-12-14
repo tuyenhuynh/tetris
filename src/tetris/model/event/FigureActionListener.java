@@ -5,11 +5,13 @@
  */
 package tetris.model.event;
 
+import java.util.EventListener;
+
 /**
  *
  * @author tuyenhm
  */
-public interface FigureActionListener {
-    public void figureRotated();
-    public void figureMoved();
+public interface FigureActionListener extends EventListener {
+    public void figureMoved(GameFieldEvent event);
+    public void figureRotated(GameFieldEvent event);
 }

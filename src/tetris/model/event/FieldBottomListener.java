@@ -5,15 +5,14 @@
  */
 package tetris.model.event;
 
-import java.util.List;
-import tetris.model.shape.Shape;
+import java.util.EventListener;
 
 /**
  *
  * @author tuyenhm
  */
-public interface FieldBottomListener {
-    void figureStopped();
-    void fullRowsRemoved(List<Shape> shapes);
-    void bottomOverload();
+public interface FieldBottomListener extends EventListener {
+    void figureStopped(FieldBottomEvent event);
+    void fullRowsRemoved(RemoveShapesEvent event);
+    void bottomOverload(FieldBottomEvent event);
 }
