@@ -74,6 +74,7 @@ public class ZFigure extends Figure{
                 position.x+=1;
                 position.y+=1;
                 break;
+                
         }
         cells = cellsConfigs[state];
         validateRotation();

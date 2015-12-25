@@ -32,7 +32,7 @@ public class GameField {
         this.width = width; 
         this.height = height;
         fieldBottom = new FieldBottom(width, height);
-        timer = new Timer(500, null);
+        timer = new Timer(1500, null);
         
         timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

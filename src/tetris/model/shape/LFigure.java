@@ -66,10 +66,12 @@ public class LFigure extends Figure{
                 break;
             case 1:
                 state = 2; 
+                position.y-=1;
                 break;
             case 2:
                 state =3;
                 position.x+=1;
+                position.y+=1;
                 break;
         }
         cells = cellsConfigs[state];
@@ -90,10 +92,12 @@ public class LFigure extends Figure{
                 break;
             case 2:
                 state = 1; 
+                position.y+=1;
                 break;
             case 3:
                 state = 2;
                 position.x -=1;
+                position.y -=1; 
                 break;
         }
         cells = cellsConfigs[state];

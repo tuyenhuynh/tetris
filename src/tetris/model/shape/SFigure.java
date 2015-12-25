@@ -48,12 +48,10 @@ public class SFigure extends Figure{
         switch (state){
             case 1:
                 state = 0; 
-                position.x-=1;
                 position.y-=1;
                 break;
             case 0:
                 state = 1;  
-                position.x+=1;
                 position.y+=1;
                 break;
         }
@@ -66,12 +64,10 @@ public class SFigure extends Figure{
         switch (state){
             case 1:
                 state = 0; 
-                position.x-=1;
                 position.y-=1;
                 break;
             case 0:
                 state = 1;  
-                position.x+=1;
                 position.y+=1;
                 break;
         }

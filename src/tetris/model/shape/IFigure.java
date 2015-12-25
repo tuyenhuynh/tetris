@@ -47,12 +47,12 @@ public class IFigure extends Figure{
             case 1:
                 state = 0; 
                 position.x-=2;
-                position.y-=2;
+                position.y-=1;
                 break;
             case 0:
                 state = 1; 
                 position.x+=2; 
-                position.y+=2;
+                position.y+=1;
                 break;
             default: 
                 return;
@@ -67,12 +67,12 @@ public class IFigure extends Figure{
             case 0 :
                 state =1; 
                 position.x+=2;
-                position.y+=2;
+                position.y+=1;
                 break;
             case 1:
                 state =0;
                 position.x-=2;
-                position.y-=2;
+                position.y-=1;
                 break;
             default: 
                 return;

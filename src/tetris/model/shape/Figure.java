@@ -92,6 +92,8 @@ public abstract class Figure extends Shape {
     
     public abstract void rotateAntiClockWise() ;
     
+    
+    
     void validateRotation() {
         boolean isRotated = true;
         if(!isInGameField()){
