@@ -5,6 +5,8 @@
  */
 package tetris.model.shape;
 
+import java.awt.Color;
+
 /**
  *
  * @author tuyenhm
@@ -27,6 +29,7 @@ public class ZFigure extends Figure{
     public ZFigure() {
        state = 0; 
        cells = cellsConfigs[state];
+       setColor(new Color(255, 35, 41));
     }
 
     @Override

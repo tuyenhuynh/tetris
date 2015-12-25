@@ -5,6 +5,8 @@
  */
 package tetris.model.shape;
 
+import java.awt.Color;
+
 
 /**
  *
@@ -28,6 +30,7 @@ public class SFigure extends Figure{
     public SFigure() {
        state = 0; 
        cells = cellsConfigs[state];
+       setColor(new Color(109, 227, 89));
     }
 
     @Override

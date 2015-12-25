@@ -23,6 +23,7 @@ public class OFigure extends Figure{
     public OFigure() {
         state = 0; 
         cells = cellsConfigs[state];
+        setColor(new Color(3, 244, 255));
     }
 
     @Override

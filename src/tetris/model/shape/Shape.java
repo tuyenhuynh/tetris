@@ -5,6 +5,7 @@
  */
 package tetris.model.shape;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,19 @@ public abstract class Shape {
     private int width; 
     private int height; 
     
+    private Color color; 
+    
     Point position; 
     
     int[][] cells;
+    
+    public void setColor(Color color) {
+        this.color = color; 
+    }
+    
+    public Color getColor() {
+        return this.color;
+    }
     
     public boolean isCollideWith (Shape other) {
         

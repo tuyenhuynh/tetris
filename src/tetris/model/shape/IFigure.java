@@ -5,6 +5,7 @@
  */
 package tetris.model.shape;
 
+import java.awt.Color;
 import java.awt.Point;
 
 
@@ -26,6 +27,7 @@ public class IFigure extends Figure{
     public IFigure() {
        state = 0; 
        cells = cellsConfigs[state];
+       setColor(new Color(218, 10, 252));
     }
 
     @Override

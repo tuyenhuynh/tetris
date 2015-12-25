@@ -40,6 +40,7 @@ public class JFigure extends Figure{
     public JFigure() {
        state = 0; 
        cells = cellsConfigs[state];
+       setColor(new Color(76, 146, 243));
     }
 
     @Override

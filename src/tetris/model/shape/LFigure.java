@@ -39,6 +39,7 @@ public class LFigure extends Figure{
     public LFigure() {
        state = 0; 
        cells = cellsConfigs[state];
+       setColor(new Color(209, 159, 23));
     }
 
     @Override
