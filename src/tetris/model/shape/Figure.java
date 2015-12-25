@@ -150,6 +150,4 @@ public abstract class Figure extends Shape {
         
         return isRotated;
     }
-    
-    
 }

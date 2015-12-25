@@ -43,7 +43,7 @@ public class OFigure extends Figure{
 
     @Override
     public void rotateByClockWise() {
-        //validateRotation();
+        
     }
 
     @Override
