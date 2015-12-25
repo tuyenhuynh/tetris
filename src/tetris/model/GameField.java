@@ -39,9 +39,15 @@ public class GameField {
                 
                 boolean isMoved = figure.move(Direction.DOWN);
                 
+                
+                
                 if(!isMoved) {
                     fieldBottom.addFigure(figure);
                 }
+                for(int i = 0 ; i < fieldBottom.getShapes().size() ; ++ i ) {
+                    //if
+                }
+                
             }
         });
     }

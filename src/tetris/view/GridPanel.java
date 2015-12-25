@@ -50,7 +50,8 @@ public class GridPanel  extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.BLUE);
+        //g.setColor(Color.BLUE);
+        g.setColor((new Color(3, 5, 12)));
         for(int i = 1 ; i < width; ++i ){
             g.drawLine(i*CELL_SIZE, 0, i*CELL_SIZE, height*CELL_SIZE);
         }
@@ -65,11 +66,11 @@ public class GridPanel  extends JPanel{
         g.drawLine(0, 599, 300, 599);
         //#002039
         Color c = new Color (47, 79, 79);
-        setBackground(new Color(0, 28, 49));
         
-        g.setColor(Color.red);
-        
+        //setBackground(new Color(0, 28, 49));
+        setBackground(new Color(22, 31, 74));
         if(activeFigure != null ) {
+            g.setColor(activeFigure.getColor());
             drawShape(g, activeFigure);
         }
         
@@ -79,20 +80,35 @@ public class GridPanel  extends JPanel{
         
     }
     
-    private void drawSquare(Graphics g, int x, int y, int size) {
-        int realX = size * x ; 
-        int realY = size * y ;
-        g.fillRect(realX, realY, size - 1, size - 1);
+    private void fillSquare(Graphics g, int x, int y, int size) {
+        Color c = g.getColor();
+        g.fillRect(x+1, y, size-1, size-1);
+    }
+    
+    private void drawSquare(Graphics g, int x, int y, int size){
+        
     }
     
     private void drawShape(Graphics g, Shape shape) {
         for(int i = 0 ; i < shape.getHeight() ; ++i) {
             for( int j = 0 ; j < shape.getWidth() ; ++j) {
                 if(shape.getCellValue(i, j) == 1) {
-                    drawSquare(g, shape.getPosition().x + j, height - (shape.getPosition().y - i) -1, CELL_SIZE);
+                    g.setColor(shape.getColor());
+                    int x = shape.getPosition().x + j ; 
+                    int y = height - (shape.getPosition().y - i) -1; 
+                    int realX = CELL_SIZE * x ; 
+                    int realY = CELL_SIZE * y ;
+                    fillSquare(g, realX , realY , CELL_SIZE);
+                    g.setColor(new Color(234, 238, 239));
+                    g.drawRect(realX+5, realY +4,  CELL_SIZE - 9, CELL_SIZE - 9);
+                    Color c = shape.getColor(); 
+                    for( int t = 0 ; t < 10 ; ++ t ) {
+                       c.darker();
+                    }
+                    g.setColor(c);
+                    fillSquare(g,realX+5, realY+6, CELL_SIZE - 10);
                 }
             }
         }
     }
-    
 }

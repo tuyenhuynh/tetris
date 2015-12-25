@@ -126,10 +126,12 @@ public class FieldBottom {
                                 i--;
                                 for(Point point : burntCells) {
                                     AloneCell burntCell = new AloneCell(point);
+                                    burntCell.setColor(shape.getColor());
                                     removedShapes.add(burntCell);
                                 }
                                 for(Point point : remainCells) {
                                     AloneCell remainCell  = new AloneCell(point);
+                                    remainCell.setColor(shape.getColor());
                                     shapes.add(remainCell);
                                 }
                             }

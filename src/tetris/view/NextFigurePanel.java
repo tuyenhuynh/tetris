@@ -20,7 +20,7 @@ public class NextFigurePanel extends JPanel{
     private Figure figure; 
     
     public NextFigurePanel() {
-        Dimension d = new Dimension(200, 150); 
+        Dimension d = new Dimension(160, 100); 
         setMaximumSize(d);
         setMinimumSize(d);
         setPreferredSize(d);
@@ -39,6 +39,7 @@ public class NextFigurePanel extends JPanel{
         int CELL_SIZE = 30 ; 
         g.setColor(Color.RED);
         if(figure != null){
+            g.setColor(figure.getColor());
             for(int i = 0 ; i < figure.getHeight(); ++i) {
                 for(int j = 0 ; j < figure.getWidth() ; ++j) {
                     if(figure.getCellValue(i, j) != 0) {
