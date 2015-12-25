@@ -21,6 +21,8 @@ public class Tetris {
             public void run() {
                 JFrame app = new GameBoard();
                 app.setVisible(true);
+                app.setLocationRelativeTo(null);
+                app.setTitle("TETRIS");
             }
         });
         

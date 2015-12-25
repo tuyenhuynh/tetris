@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -35,6 +36,7 @@ public class GameBoard extends JFrame{
     
     private static final int width = 10; 
     private static final int height = 20; 
+    
     private GridPanel gridPanel = new GridPanel(width, height); 
     private ScorePanel scorePanel= new ScorePanel();
     private NextFigurePanel nextFigurePanel = new NextFigurePanel(); 
@@ -45,6 +47,8 @@ public class GameBoard extends JFrame{
     private static final String ICON_PLAY = "/tetris/view/images/play.png";
     private static final String ICON_PAUSE = "/tetris/view/images/pause.png";
     private static final String ICON_RESTART = "/tetris/view/images/restart.png";
+    private static final String NEW_GAME_TOOTIP = "New game"; 
+    private static final String PLAY_PAUSE_TOOLTIP = "Play/Pause";
     private Icon iconPlay; 
     private Icon iconPause; 
     private Icon iconRestart; 
@@ -92,6 +96,12 @@ public class GameBoard extends JFrame{
         }catch (Exception e) {
             
         }
+         
+        Dimension frameSize = new Dimension(580, 690); 
+        setPreferredSize(frameSize); 
+        setMaximumSize(frameSize);
+        setMinimumSize(frameSize); 
+        setResizable(false);
         
         setFocusable(true);
         pack();
@@ -103,40 +113,36 @@ public class GameBoard extends JFrame{
         GridBagConstraints gc = new GridBagConstraints();
         setLayout(layout); 
         
-        gc.weightx= 1.0; 
-        gc.weighty =1.0;
         gc.gridx = 0; 
         gc.gridy = 0; 
-        gc.gridheight = 5;
-        gc.gridwidth  = 1; 
+        gc.gridheight = 3; 
         add(gridPanel, gc);
-        
-        
-        gc.weighty = 0.5;
-        
-        gc.gridheight = 1; 
+        gc.insets = new Insets(30, 30, 30, 0);
+
+        gc.gridheight = 1;
         gc.gridwidth = 2; 
         gc.gridx = 1;         
         gc.gridy = 0; 
-        
-        //gc.anchor = GridBagConstraints.NORTH;
+        gc.insets = new Insets(0, 30, 60, 30);
         add(nextFigurePanel, gc);
         
         gc.gridx = 1;         
         gc.gridy = 1; 
+        gc.insets = new Insets(0, 30, 0, 30);
         add(scorePanel, gc);
         
-        gc.gridy = 2;
+        gc.insets = new Insets(-20, 30, 0, 0);
         gc.gridwidth = 1; 
+        gc.gridy = 2; 
         gc.gridx = 1;
-        add(btnNewGame, gc);
-        
-        gc.gridx = 2;
         add(btnStart, gc);
         
-        Dimension size = new Dimension(500, 700);
-        setMinimumSize(size);
-        setMaximumSize(size);
+        gc.gridx = 2;
+        add(btnNewGame, gc);
+        
+        btnNewGame.setToolTipText(NEW_GAME_TOOTIP);
+        btnStart.setToolTipText(PLAY_PAUSE_TOOLTIP);
+       
     }
     
     private void startGame() {

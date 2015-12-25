@@ -35,7 +35,6 @@ public class GridPanel  extends JPanel{
         setMaximumSize(size);
         setMinimumSize(size);
         setPreferredSize(size);
-        
     }
     
     public void updateGridStatus(GameFieldEvent event) {
@@ -43,7 +42,6 @@ public class GridPanel  extends JPanel{
         shapes = event.getShapes();
         repaint();
     }
-    
     
     @Override
     public void paintComponent(Graphics g) {
