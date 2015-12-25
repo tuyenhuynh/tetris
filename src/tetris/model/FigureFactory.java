@@ -18,6 +18,7 @@ import java.util.Random;
 /**
  *
  * @author tuyenhm
+ * Class to generate random figure
  */
 public class FigureFactory {
     
@@ -25,7 +26,6 @@ public class FigureFactory {
     
     public Figure createRandomFigure() {
         int num  = Math.abs(random.nextInt()%7);
-        //num = 6; 
         switch(num){
             case 0:
                 return new IFigure(); 

@@ -6,7 +6,6 @@
 package tetris.model;
 
 import java.awt.Point;
-import java.util.List;
 import org.apache.log4j.Logger;
 import tetris.model.event.FieldBottomEvent;
 import tetris.model.event.FieldBottomListener;
@@ -15,7 +14,6 @@ import tetris.model.shape.Figure;
 import tetris.model.event.GameFieldEvent;
 import tetris.model.event.GameListener;
 import tetris.model.event.RemoveShapesEvent;
-import tetris.model.shape.Shape;
 
 /**
  *
@@ -23,13 +21,21 @@ import tetris.model.shape.Shape;
  */
 public class GameModel {
     private static final Logger logger = Logger.getLogger(GameModel.class);
+    //score
     private int score; 
+    //figure factory
     private FigureFactory figureFactory; 
+    //active figure
     private Figure activeFigure; 
+    //next figure
     private Figure nextFigure; 
+    //listener
     private GameListener gameListener; 
+    //game field
     private GameField gameField; 
+    //bonus calculator
     private BonusCalculator bonusCalculator;
+    //standard size of game tetris
     private static final int WIDTH = 10; 
     private static final int HEIGHT = 20;
     
@@ -40,25 +46,34 @@ public class GameModel {
         gameField.addFieldBottomListener(new FieldBottomObserver());
     }
     
+    //start game
     public void startGame() {
         gameField.activateFigure();
     }
     
+    //stop game
     public void stopGame() {
         gameField.deactivateFigure();
     }
     
+    //create new game
     public void createNewGame() {
+        //set initial score
         score = 0; 
+        //set active figure and it's properties
         activeFigure = figureFactory.createRandomFigure();
         activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
         activeFigure.setGameField(gameField);
+        activeFigure.addActionListener(new FigureActionObserver());
+        //set next figure 
         nextFigure = figureFactory.createRandomFigure();
         nextFigure.setPosition(new Point(0, 1));
-        activeFigure.addActionListener(new FigureActionObserver());
+        //emit event
         gameListener.nextFigureChanged(nextFigure);
+        //set active figure for game field
         gameField.setActiveFigure(activeFigure);
         gameField.clearBottom();
+        //star game
         startGame();
     }
     
@@ -95,7 +110,7 @@ public class GameModel {
             GameFieldEvent gameFieldEvent = new GameFieldEvent(this);
             gameFieldEvent.setActiveFigure(activeFigure);
             gameFieldEvent.setShapes(event.getShapes());
-            //TODO:
+            
             gameListener.gridBoardChanged(gameFieldEvent);
             logger.info("Figure stopped. Rerendering grid");
         }

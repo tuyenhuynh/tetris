@@ -16,22 +16,30 @@ import tetris.navigation.Direction;
 /**
  *
  * @author tuyenhm
+ * Abstract class of figures
  */
 public abstract class Figure extends Shape {
     
     private static final Logger logger = Logger.getLogger(Figure.class);
     
+    //current state of figures
     protected int state;
     
+    //game field
     GameField gameField; 
     
+    //listener
     FigureActionListener listener; 
     
+    //move with given direction 
     public boolean move(Direction direction) {
         
+        //current position of figure
         Point oldPos = this.position; 
         
+        //new position
         Point newPosition = null; 
+        //define new position
         switch (direction){
             case DOWN:
                 newPosition = new Point(position.x, position.y - 1);
@@ -45,20 +53,22 @@ public abstract class Figure extends Shape {
             default:
                 newPosition = new Point(position.x , position.y +1);
         }
-        
+        //figure with new position
         setPosition(newPosition);
         
+        //check collision with fields' border
         if(!isInGameField()) {
             setPosition(oldPos);
             return false; 
         }
+        //check collision with other figures in fields' bottom
         for(Shape shape : gameField.getFieldBottom().getShapes()) {
             if(isCollideWith(shape)) {
                 setPosition(oldPos);
                 return false;
             }
         }
-        
+        //emit signal after moving
         FieldBottom bottom = gameField.getFieldBottom();
         GameFieldEvent event = new GameFieldEvent(this);
         event.setShapes(bottom.getShapes());
@@ -68,10 +78,12 @@ public abstract class Figure extends Shape {
         return true; 
     }
     
+    //set game field
     public void setGameField(GameField gameField) {
         this.gameField = gameField;
     }
     
+    //
     protected boolean isInGameField() {
         //rotate right after appearing of new figure
         int x = this.position.x; 
@@ -83,31 +95,39 @@ public abstract class Figure extends Shape {
         return result; 
     }
     
+    //add listener
     public void addActionListener(FigureActionListener listener) {
         this.listener = listener; 
     }
     
-    
+    //rotate by clockwise
     public abstract void rotateByClockWise() ;
     
+    //rotate anti clockwise
     public abstract void rotateAntiClockWise() ;
     
+    //rotate with wall kick
     public void rotate() {
         boolean isRotated = rotateRightAndCheckCollision(); 
         if(!isRotated && move(Direction.RIGHT)) {
             isRotated = rotateRightAndCheckCollision();
             if(!isRotated) {
+                //kick left wall
                 if(move(Direction.RIGHT)){
+                    //kick wall second time if failed at the first time 
                     isRotated = rotateRightAndCheckCollision(); 
                     if(!isRotated) {
+                        //return to previous position
                         move(Direction.LEFT);
                     }
                 }
+                //return to previous position
                 if(!isRotated) {
                     move(Direction.LEFT);
                 }
             }
         }
+        //kick the right wall 
         if(!isRotated && move(Direction.LEFT)) {
             rotateByClockWise(); 
             isRotated = validateRotation(); 
@@ -115,7 +135,7 @@ public abstract class Figure extends Shape {
                 move(Direction.RIGHT);
             }
         }
-        
+        //emit signal after rotating
         if(isRotated){
             FieldBottom bottom = gameField.getFieldBottom();
             GameFieldEvent event = new GameFieldEvent(this);
@@ -132,6 +152,7 @@ public abstract class Figure extends Shape {
         return isRotated; 
     }
     
+    //check for collision with field's border and figures in game field
     private boolean validateRotation() {
         
         boolean isRotated = true;

@@ -16,22 +16,24 @@ import tetris.model.shape.AloneCell;
 import tetris.model.shape.Figure;
 import tetris.model.shape.Shape;
 
-/**
- *
- * @author tuyenhm
- */
+//Bottom of field, which contains figures and remained part of figures
 public class FieldBottom {
     
     private static final Logger logger = Logger.getLogger(FieldBottom.class);
     
+    //maximum width of field's bottom
     private int maxWidth;
     
+    //maximum height of field's bottom
     private int maxHeight;
     
+    //list contains figures and remained part of figures
     private List<Shape> shapes = new ArrayList<>();
     
+    //width of each row in field's bottom
     private int[] widths;
     
+    //listener
     private FieldBottomListener listener; 
     
     public FieldBottom (int maxWidth, int maxHeight) {
@@ -40,27 +42,32 @@ public class FieldBottom {
         widths = new int [maxHeight]; 
     }
     
+    //add figure to field bottom
     public void addFigure(Figure figure) {
+        //check for game over
         if(figure.getPosition().y > maxHeight -1){
             FieldBottomEvent evt = new FieldBottomEvent(this);
             evt.setShapes(shapes);
             listener.bottomOverload(evt);
             logger.info("Bottom overload");
         }else {
+            //add figure to field's bottom
             shapes.add(figure);
             List<Point> points = figure.findNotEmptyCells();
             for(Point point :  points ) {
                 int y = point.y; 
+                //updates width of rows
                 widths[y] ++; 
             }
-
+            
+            //remove full rows
             List<Shape>removedShapes = removeFullRows();
             FieldBottomEvent evt = new FieldBottomEvent(this);
             evt.setShapes(shapes);
             listener.figureStopped(evt);
             logger.info("Figured stopped");
             
-
+            //emit event of removing full rows
             if(!removedShapes.isEmpty()) {
                 RemoveShapesEvent removeShapesEvent = new RemoveShapesEvent(this);
                 removeShapesEvent.setRemovedShapes(removedShapes);
@@ -74,13 +81,16 @@ public class FieldBottom {
         return shapes; 
     }
     
+    //remove full rows after adding figure to field's bottom
     public List<Shape> removeFullRows() {
         
         List<Shape> removedShapes = new ArrayList<>();
         
+        //find full rows
         List<Integer> fullRows = findFullRows();
         
         if(fullRows.size() > 0) {
+            //find boundary of sequence of full rows
             int lowY = fullRows.get(0);
             int highY = fullRows.size() + lowY-1;
         
@@ -103,6 +113,7 @@ public class FieldBottom {
                     if( !(shape.getPosition().y < lowY || shape.getPosition().y + 1 - shape.getHeight() > highY)) {
                         //figure burnt
                         if(shape.getPosition().y <= highY && shape.getPosition().y+ 1 - shape.getHeight() >= lowY){
+                            //remove figure
                             shapes.remove(i);
                             i--;
                             removedShapes.add(shape);
@@ -110,18 +121,19 @@ public class FieldBottom {
                             //check if part of figure burnt
                             List<Point>  points = shape.findNotEmptyCells();
                             List<Point> burntCells = new ArrayList<>(); 
-                            List<Point> remainCells = new ArrayList<>(); 
-
+                            List<Point> remainedCells = new ArrayList<>(); 
+                                
                             for(Point cell : points ) {
                                 if(cell.y >=lowY &&  cell.y <=highY ) {
                                     burntCells.add(cell);
                                 }else {
-                                    remainCells.add(cell);
+                                    remainedCells.add(cell);
                                 }
                             }
 
                             //part of figure burnt
                             if(burntCells.size() > 0) {
+                                // break figures into cells and remove burnt cell
                                 shapes.remove(i);
                                 i--;
                                 for(Point point : burntCells) {
@@ -129,7 +141,8 @@ public class FieldBottom {
                                     burntCell.setColor(shape.getColor());
                                     removedShapes.add(burntCell);
                                 }
-                                for(Point point : remainCells) {
+                                //transform remained cells into alone cells and add them to field's bottom
+                                for(Point point : remainedCells) {
                                     AloneCell remainCell  = new AloneCell(point);
                                     remainCell.setColor(shape.getColor());
                                     shapes.add(remainCell);
@@ -140,7 +153,7 @@ public class FieldBottom {
                 }
             }
             
-            //ship shapes above highY down
+            //shift shapes above highY down
             int fullRowCount = fullRows.size(); 
             for(Shape shape : shapes ) {
                 int  y = shape.getPosition().y; 
@@ -163,6 +176,7 @@ public class FieldBottom {
         return  removedShapes;
     }
     
+    //find full row base of width of each rows
     private List<Integer> findFullRows() {
         List<Integer> fullRows = new ArrayList<>();
         for(int i = 0; i < widths.length ; ++i) {
@@ -173,6 +187,8 @@ public class FieldBottom {
         return fullRows;
     }
     
+    
+    //set listener
     public void addFieldBottomListener(FieldBottomListener listener) {
         this.listener = listener;
     }
@@ -185,6 +201,7 @@ public class FieldBottom {
         this.maxHeight = maxHeight;
     }
     
+    //clear field's bottom
     public void clear() {
         shapes.clear();
         for( int i = 0 ; i < maxHeight ; ++i ) {

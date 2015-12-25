@@ -13,16 +13,19 @@ import java.util.List;
 /**
  *
  * @author tuyenhm
+ * Abstract class Shape
  */
 public abstract class Shape {
     
+    //shape's width
     private int width; 
+    //shape's height
     private int height; 
-    
+    //shape's color
     private Color color; 
-    
+    //shape's position on game board
     Point position; 
-    
+    //cells of shapes
     int[][] cells;
     
     public void setColor(Color color) {
@@ -33,10 +36,13 @@ public abstract class Shape {
         return this.color;
     }
     
+    //check for collision with other shape
     public boolean isCollideWith (Shape other) {
-        
+        //get list of cells of current shape
         List <Point> myCells = findNotEmptyCells();
+        //get list of cells of other shape
         List <Point> otherCells = other.findNotEmptyCells();
+        //find interchange of shapes
         for(Point cell : myCells) {
             if(otherCells.contains(cell)) {
                 return true;
@@ -45,7 +51,7 @@ public abstract class Shape {
         return false;
     }
     
-    //return global coordinates of not empty cells of figure
+    //get none empty cells of figures
     public List<Point> findNotEmptyCells () {
         
         List<Point> result = new ArrayList(); 
@@ -61,10 +67,7 @@ public abstract class Shape {
         return result;
     }
     
-    Point traslatePositionToGlobalPosition(Point point) {
-        return new Point(0, 0);
-    }
-    
+    //get one cell base on it's coordinates
     public int getCellValue(int row, int col) {
         return cells[row][col];
     }

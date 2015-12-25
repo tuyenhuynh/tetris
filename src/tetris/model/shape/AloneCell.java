@@ -10,6 +10,7 @@ import java.awt.Point;
 /**
  *
  * @author tuyenhm
+ * AloneCell used to demonstrate remained cell of figure after removing it's burnt cells
  */
 public class AloneCell extends Shape {
     

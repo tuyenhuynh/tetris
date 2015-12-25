@@ -21,8 +21,8 @@ import tetris.model.shape.Shape;
  */
 public class GridPanel  extends JPanel{
     
-    private final int columnCount; 
-    private final int rowCount; 
+    private int columnCount; 
+    private int rowCount; 
     
     private static final int CELL_SIZE =  30;
     private Figure activeFigure = null; 
@@ -37,6 +37,7 @@ public class GridPanel  extends JPanel{
         setPreferredSize(size);
     }
     
+    //repaint game board
     public void updateGridStatus(GameFieldEvent event) {
         activeFigure = event.getActiveFigure(); 
         shapes = event.getShapes();
@@ -46,6 +47,7 @@ public class GridPanel  extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //draw grid 
         g.setColor((new Color(3, 5, 12)));
         for(int i = 1 ; i < columnCount; ++i ){
             g.drawLine(i*CELL_SIZE, 0, i*CELL_SIZE, rowCount*CELL_SIZE);
@@ -53,20 +55,21 @@ public class GridPanel  extends JPanel{
         for(int i = 1 ; i < rowCount ; ++i) {
             g.drawLine(0, i*CELL_SIZE, columnCount*CELL_SIZE, i*CELL_SIZE);
         }
-        //paint border 
+        //draw border 
         g.setColor(new Color(1, 168, 213));
         g.drawLine(0, 0, 300, 0);
         g.drawLine(0, 0, 0, 600);
         g.drawLine(299, 0, 299, 600);
         g.drawLine(0, 599, 300, 599);
         Color c = new Color (47, 79, 79);
-        
+        //set background
         setBackground(new Color(22, 31, 74));
+        //draw figure 
         if(activeFigure != null ) {
             g.setColor(activeFigure.getColor());
             DrawUtility.drawShape(g, 0, 0, CELL_SIZE, rowCount, activeFigure);
         }
-        
+        //draw bottom 
         for(Shape shape : shapes) {
             DrawUtility.drawShape(g,0, 0, CELL_SIZE, rowCount, shape);
         }

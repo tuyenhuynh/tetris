@@ -18,10 +18,13 @@ import tetris.model.shape.Figure;
  */
 public class NextFigurePanel extends JPanel{
     
+    //next figure
     private Figure figure; 
     
-    private static final int margin_left = 10; 
+    //margins
+    private static final int margin_left = 20; 
     private static final int margin_top = 40 ; 
+    //cell's size
     private static final int CELL_SIZE = 30 ; 
     
     public NextFigurePanel() {
@@ -31,6 +34,7 @@ public class NextFigurePanel extends JPanel{
         setPreferredSize(d);
     }
     
+    //set next figure
     public void setFigure(Figure figure) {
         this.figure = figure; 
         repaint();
@@ -39,14 +43,18 @@ public class NextFigurePanel extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // set background
         setBackground(new Color(22, 37, 103));
-        g.setColor(new Color(51, 99, 207));
+        //draw border
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+        //draw title of panel
+        g.setColor(new Color(51, 99, 207));
         g.fillRect(0, 0, getWidth(), 30);
         Font font = new Font("Impact", Font.TRUETYPE_FONT, 26);
         g.setColor(Color.WHITE);
         g.setFont(font);
         g.drawString("NEXT", 40 ,25 );
+        //draw next figure
         if(figure!= null) {
             DrawUtility.drawShape(g, margin_left,  margin_top, CELL_SIZE,2, figure);
         }

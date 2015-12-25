@@ -9,14 +9,12 @@ import java.util.List;
 import tetris.model.shape.Shape;
 import tetris.model.shape.Figure;
 
-/**
- *
- * @author tuyenhm
- */
+//Calculate bonus
 public class BonusCalculator {
     
     private static final double CELL_PRICE = 10;
-    
+
+    //Calculate bonus from list of shapes
     public int calculateBonus(List<Shape> shapes) {
         
         int bonus = 0 ; 

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  */
 public class ScorePanel extends JPanel{
     private int score = 0; 
+    
     public ScorePanel() {
         Dimension size = new Dimension(160, 100);
         setMinimumSize(size);
@@ -28,18 +29,23 @@ public class ScorePanel extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //set background
         setBackground(new Color(22, 37, 103));
+        //draw border
         g.setColor(new Color(51, 99, 207));
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+        //draw title
         g.fillRect(0, 0, getWidth(), 30);
         Graphics2D g2 = (Graphics2D)g;
         g2.setColor(Color.WHITE);
         Font font = new Font("Impact", Font.TRUETYPE_FONT, 26);
         g2.setFont(font);
         g2.drawString("SCORE", 40, 25);
+        //display current score
         g2.drawString(Integer.toString(score), 25, 70);
     }
     
+    //update score
     public void setScore(int score){
         this.score = score; 
         repaint(); 
