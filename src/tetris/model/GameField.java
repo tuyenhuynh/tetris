@@ -24,6 +24,8 @@ public class GameField {
     
     private Timer timer; 
     
+    private Timer timer1; 
+    
     private FieldBottom fieldBottom; 
     
     private Figure figure;
@@ -33,21 +35,22 @@ public class GameField {
         this.height = height;
         fieldBottom = new FieldBottom(width, height);
         timer = new Timer(500, null);
+        timer1 = new Timer(1500, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!figure.move(Direction.DOWN)){
+                    fieldBottom.addFigure(figure);
+                    timer1.stop();
+                }
+            }
+        });
         
         timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
                 boolean isMoved = figure.move(Direction.DOWN);
-                
-                
-                
                 if(!isMoved) {
-                    fieldBottom.addFigure(figure);
+                    timer1.start();
                 }
-                for(int i = 0 ; i < fieldBottom.getShapes().size() ; ++ i ) {
-                    //if
-                }
-                
             }
         });
     }
