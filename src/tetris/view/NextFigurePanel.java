@@ -7,6 +7,7 @@ package tetris.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import tetris.model.shape.Figure;
@@ -19,8 +20,12 @@ public class NextFigurePanel extends JPanel{
     
     private Figure figure; 
     
+    private static final int margin_left = 10; 
+    private static final int margin_top = 40 ; 
+    private static final int CELL_SIZE = 30 ; 
+    
     public NextFigurePanel() {
-        Dimension d = new Dimension(160, 100); 
+        Dimension d = new Dimension(160, 110); 
         setMaximumSize(d);
         setMinimumSize(d);
         setPreferredSize(d);
@@ -34,30 +39,16 @@ public class NextFigurePanel extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int margin_left = 10; 
-        int margin_top = 10 ; 
-        int CELL_SIZE = 30 ; 
-        g.setColor(Color.RED);
-        if(figure != null){
-            g.setColor(figure.getColor());
-            for(int i = 0 ; i < figure.getHeight(); ++i) {
-                for(int j = 0 ; j < figure.getWidth() ; ++j) {
-                    if(figure.getCellValue(i, j) != 0) {
-                        g.fillRect(margin_left + j*CELL_SIZE,
-                                margin_top + i *CELL_SIZE, 
-                                CELL_SIZE,
-                                CELL_SIZE);
-                        
-                    }
-                }
-            }
+        setBackground(new Color(22, 37, 103));
+        g.setColor(new Color(51, 99, 207));
+        g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+        g.fillRect(0, 0, getWidth(), 30);
+        Font font = new Font("Impact", Font.TRUETYPE_FONT, 26);
+        g.setColor(Color.WHITE);
+        g.setFont(font);
+        g.drawString("NEXT", 40 ,25 );
+        if(figure!= null) {
+            DrawUtility.drawShape(g, margin_left,  margin_top, CELL_SIZE,2, figure);
         }
     }
-    
-    private void drawSquare(Graphics g, int x, int y, int size) {
-        int realX = size * x ; 
-        int realY = size * y ;
-        g.fillRect(realX, realY, size - 1, size - 1);
-    }
-    
 }

@@ -35,7 +35,7 @@ public class GameField {
         this.height = height;
         fieldBottom = new FieldBottom(width, height);
         timer = new Timer(500, null);
-        timer1 = new Timer(1500, new ActionListener(){
+        timer1 = new Timer(700, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!figure.move(Direction.DOWN)){

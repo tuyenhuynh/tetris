@@ -54,6 +54,7 @@ public class GameModel {
         activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
         activeFigure.setGameField(gameField);
         nextFigure = figureFactory.createRandomFigure();
+        nextFigure.setPosition(new Point(0, 1));
         activeFigure.addActionListener(new FigureActionObserver());
         gameListener.nextFigureChanged(nextFigure);
         gameField.setActiveFigure(activeFigure);
@@ -75,6 +76,7 @@ public class GameModel {
         public void figureStopped(FieldBottomEvent event) {
             //generate next figure
             Figure newFigure = figureFactory.createRandomFigure();
+            newFigure.setPosition(new Point(0, 1));
             //change active figure
             activeFigure = nextFigure;
             //configure active figure

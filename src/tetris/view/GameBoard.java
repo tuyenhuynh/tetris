@@ -69,14 +69,7 @@ public class GameBoard extends JFrame{
                 }
             }
         });
-        
-//        btnPause.addActionListener( new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                stopGame(); 
-//            }
-//        });
-//        
+          
         btnNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -197,7 +190,6 @@ public class GameBoard extends JFrame{
             if(direction != Direction.NONE) {
                 Figure activeFigure = model.getActiveFigure() ; 
                 if(direction == Direction.UP) {
-                    //
                     activeFigure.rotate();
                 } else {
                     
