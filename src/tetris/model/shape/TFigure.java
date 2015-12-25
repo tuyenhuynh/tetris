@@ -75,8 +75,7 @@ public class TFigure extends Figure {
                 break;
         }
         cells = cellsConfigs[state];
-        
-        validateRotation();
+        //validateRotation();
         
     }
 

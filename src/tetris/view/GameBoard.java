@@ -199,7 +199,8 @@ public class GameBoard extends JFrame{
             if(direction != Direction.NONE) {
                 Figure activeFigure = model.getActiveFigure() ; 
                 if(direction == Direction.UP) {
-                    activeFigure.rotateByClockWise();
+                    //
+                    activeFigure.rotate();
                 } else {
                     
                     activeFigure.move(direction);

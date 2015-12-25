@@ -75,7 +75,7 @@ public class LFigure extends Figure{
                 break;
         }
         cells = cellsConfigs[state];
-        validateRotation();
+        //validateRotation();
     }
 
     @Override

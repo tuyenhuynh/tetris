@@ -25,7 +25,7 @@ public class FigureFactory {
     
     public Figure createRandomFigure() {
         int num  = Math.abs(random.nextInt()%7);
-        num = 6; 
+        //num = 6; 
         switch(num){
             case 0:
                 return new IFigure(); 

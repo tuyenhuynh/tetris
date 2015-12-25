@@ -92,9 +92,48 @@ public abstract class Figure extends Shape {
     
     public abstract void rotateAntiClockWise() ;
     
+    public void rotate() {
+        boolean isRotated = rotateRightAndCheckCollision(); 
+        if(!isRotated && move(Direction.RIGHT)) {
+            isRotated = rotateRightAndCheckCollision();
+            if(!isRotated) {
+                if(move(Direction.RIGHT)){
+                    isRotated = rotateRightAndCheckCollision(); 
+                    if(!isRotated) {
+                        move(Direction.LEFT);
+                    }
+                }
+                if(!isRotated) {
+                    move(Direction.LEFT);
+                }
+            }
+        }
+        if(!isRotated && move(Direction.LEFT)) {
+            rotateByClockWise(); 
+            isRotated = validateRotation(); 
+            if(!isRotated){
+                move(Direction.RIGHT);
+            }
+        }
+        
+        if(isRotated){
+            FieldBottom bottom = gameField.getFieldBottom();
+            GameFieldEvent event = new GameFieldEvent(this);
+            event.setShapes(bottom.getShapes());
+            event.setActiveFigure(this);
+            listener.figureRotated(event);
+            logger.info("Figure rotated");
+        }
+    }
     
+    private boolean rotateRightAndCheckCollision(){
+        rotateByClockWise(); 
+        boolean isRotated = validateRotation(); 
+        return isRotated; 
+    }
     
-    void validateRotation() {
+    private boolean validateRotation() {
+        
         boolean isRotated = true;
         if(!isInGameField()){
             rotateAntiClockWise();
@@ -109,14 +148,8 @@ public abstract class Figure extends Shape {
             }
         }
         
-        if(isRotated){
-            FieldBottom bottom = gameField.getFieldBottom();
-            GameFieldEvent event = new GameFieldEvent(this);
-            event.setShapes(bottom.getShapes());
-            event.setActiveFigure(this);
-            listener.figureRotated(event);
-            logger.info("Figure rotated");
-        } 
+        return isRotated;
     }
+    
     
 }
