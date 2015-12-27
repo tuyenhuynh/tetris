@@ -16,21 +16,31 @@ import tetris.model.shape.AloneCell;
 import tetris.model.shape.Figure;
 import tetris.model.shape.Shape;
 
-//Bottom of field, which contains figures and remained part of figures
+ /**
+  * Bottom of field, which contains figures and remained part of figures
+  */
 public class FieldBottom {
     
     private static final Logger logger = Logger.getLogger(FieldBottom.class);
     
-    //maximum width of field's bottom
+    /**
+     * The first and last name of this student.
+     */
     private int maxWidth;
     
-    //maximum height of field's bottom
+    /**
+     * Maximum height of field's bottom
+     */
     private int maxHeight;
     
-    //list contains figures and remained part of figures
+    /**
+     * List contains figures and remained part of figures
+     */
     private List<Shape> shapes = new ArrayList<>();
     
-    //width of each row in field's bottom
+    /**
+     * Width of each row in field's bottom
+     */
     private int[] widths;
     
     //listener
@@ -42,7 +52,10 @@ public class FieldBottom {
         widths = new int [maxHeight]; 
     }
     
-    //add figure to field bottom
+    /**
+     * Add figure to field bottom
+     * @param figure to add to field's bottom
+     */
     public void addFigure(Figure figure) {
         //check for game over
         if(figure.getPosition().y > maxHeight -1){
@@ -77,11 +90,18 @@ public class FieldBottom {
         }
     }
     
+    /**
+     * Get list of shapes
+     * @return shapes in field's bottom
+     */
     public List<Shape> getShapes () {
         return shapes; 
     }
     
-    //remove full rows after adding figure to field's bottom
+    /**
+     * Remove full rows after adding figure to field's bottom
+     * @return list of removed shapes
+     */
     public List<Shape> removeFullRows() {
         List<Shape> removedShapes = new ArrayList<>();
         //find full rows
@@ -167,7 +187,10 @@ public class FieldBottom {
         return  removedShapes;
     }
     
-    //find full row base of width of each rows
+    /**
+     * Find full row base of width of each rows
+     * @return list of full rows
+     */
     private List<Integer> findFullRows() {
         List<Integer> fullRows = new ArrayList<>();
         for(int i = 0; i < widths.length ; ++i) {
@@ -178,22 +201,35 @@ public class FieldBottom {
         return fullRows;
     }
     
-    
-    //set listener
+    /**
+     * Add listener
+     * @param listener to be added
+     */
     public void addFieldBottomListener(FieldBottomListener listener) {
         this.listener = listener;
     }
     
+    /**
+     * Set max width
+     * @param maxWidth maximum widths of field's bottom
+     */
     public void setMaxWidth(int maxWidth){
         this.maxWidth = maxWidth;
     }
     
+    /**
+     * Set maxHeight
+     * @param maxHeight maximum height of field's bottom
+     */
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
         widths = new int[maxHeight];
     }
     
-    //clear field's bottom
+    /**
+     * Clear field's bottom
+     */
+     
     public void clear() {
         shapes.clear();
         for( int i = 0 ; i < maxHeight ; ++i ) {

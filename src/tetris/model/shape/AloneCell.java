@@ -10,10 +10,14 @@ import java.awt.Point;
 /**
  *
  * @author tuyenhm
- * AloneCell used to demonstrate remained cell of figure after removing it's burnt cells
+ * Class AloneCell used to demonstrate remained cell of figure after removing it's burnt cells
  */
 public class AloneCell extends Shape {
     
+    /**
+     * Default constructor
+     * @param position position of cell
+     */
     public AloneCell(Point position) {
         this.position =  position; 
         this.cells = new int[][] {{1}}; 

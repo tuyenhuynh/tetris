@@ -14,36 +14,54 @@ import tetris.model.shape.Figure;
 import tetris.navigation.Direction;
 
 /**
- *
- * @author tuyenhm
- * class GameField
+ * class GameField, which contains 
  */
 public class GameField {
     
-    //width of game field
+    /**
+     * Width of game field
+     */
     private int width; 
     
-    //height of game field
+    /**
+     * Height of game field
+     */
     private int height; 
     
-    //timer to control active figure
+    /**
+     * Timer to control active figure
+     */
     private Timer timer; 
     
-    //additional timer to control figure after it's landing to bottom
+    /**
+     * Additional timer to control figure after it's landing to bottom
+     */
     private Timer timer1; 
     
-    //field's bottom
+    /**
+     * Field's bottom
+     */
     private FieldBottom fieldBottom; 
     
-    //active figure
+    /**
+     * Active figure
+     */
     private Figure figure;
     
-    //delay
+    /**
+     * Delay
+     */
     private static final int DELAY = 500; 
-    //lock delay - time to wait for player's action after figure's landing to bottom.
-    //if player has no action after that amount of time, figure will be fixed to field's bottom
+    /**
+     * lock delay - time to wait for player's action after figure's landing to bottom.\n
+     * if player has no action after that amount of time, figure will be fixed to field's bottom
+     */
     private static final int LOCK_DELAY = 400;
     
+    /**
+     * Construct GamField, given dimension
+     * @param dimension dimension of game field
+     */
     public GameField(Dimension dimension) {
         this.width = dimension.width; 
         this.height = dimension.height;
@@ -69,6 +87,10 @@ public class GameField {
         });
     }
     
+    /**
+     * Set dimension for game field
+     * @param dimension dimension
+     */
     public void updateDimension(Dimension dimension){
         this.width = dimension.width; 
         this.height = dimension.height;
@@ -76,39 +98,61 @@ public class GameField {
         fieldBottom.setMaxWidth(width);
     }
     
-    //clear bottom
+    /**
+     * Clear bottom
+     */
     public void clearBottom () {
         fieldBottom.clear();
     }
     
-    //deactivate figure
+    /**
+     * Deactivate figure
+     */
     public void deactivateFigure() {
         timer.stop();
     }
     
-    //activate figure
+    /**
+     * activate figure
+     */
     public void activateFigure() {
         timer.start();
     }
     
-    //set active figure
+    /**
+     * Set active figure
+     * @param figure Active figure
+     */
     public void setActiveFigure(Figure figure) {
         this.figure = figure;
     }
     
-    //set listener
+    /**
+     * Set listener
+     * @param fieldBottomListener listener
+     */
     public void addFieldBottomListener(FieldBottomListener fieldBottomListener ) {
         fieldBottom.addFieldBottomListener(fieldBottomListener); 
     }
-    //get field's bottom
+    /**
+     * Get field's bottom
+     * @return Field's bottom
+     */
     public FieldBottom getFieldBottom() {
         return this.fieldBottom;
     }
-
+    /**
+     * Get field's width
+     * @return field's width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get field's height
+     * @return field's height
+     */
     public int getHeight() {
         return height;
     }

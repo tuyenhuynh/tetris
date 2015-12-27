@@ -15,14 +15,20 @@ import tetris.model.shape.TFigure;
 import tetris.model.shape.OFigure;
 import java.util.Random;
 /**
- *
- * @author tuyenhm
  * Class to generate random figure
  */
 public class FigureFactory {
     
+    /**
+     * Instance of Random
+     */    
     private static final  Random random = new Random(); 
     
+    /**
+     * Generate random figure
+     * @return generated figure
+     */
+     
     public Figure createRandomFigure() {
         int num  = Math.abs(random.nextInt()%7);
         switch(num){

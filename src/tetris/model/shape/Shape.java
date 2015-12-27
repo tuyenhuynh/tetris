@@ -17,26 +17,48 @@ import java.util.List;
  */
 public abstract class Shape {
     
-    //shape's width
+    /**
+     * Shape's width
+     */
     private int width; 
-    //shape's height
+    /**
+     * Shape's height
+     */
     private int height; 
-    //shape's color
+    /**
+     * Shape's color
+     */
     private Color color; 
-    //shape's position on game board
+    /**
+     * Shape's position on game board
+     */
     Point position; 
-    //cells of shapes
+    /**
+     * Cells of shapes
+     */
     int[][] cells;
     
+    /**
+     * Set color
+     * @param color shape's color 
+     */
     public void setColor(Color color) {
         this.color = color; 
     }
     
+    /**
+     * Get color
+     * @return shape's color
+     */
     public Color getColor() {
         return this.color;
     }
     
-    //check for collision with other shape
+    /**
+     * check for collision with other shape
+     * @param other shape to check collision with 
+     * @return true if collision occurred, otherwise return false 
+     */
     public boolean isCollideWith (Shape other) {
         //get list of cells of current shape
         List <Point> myCells = findNotEmptyCells();
@@ -51,7 +73,10 @@ public abstract class Shape {
         return false;
     }
     
-    //get none empty cells of figures
+    /**
+     * Get none empty cells of figures
+     * @return list of none empty cells
+     */
     public List<Point> findNotEmptyCells () {
         
         List<Point> result = new ArrayList(); 
@@ -67,41 +92,70 @@ public abstract class Shape {
         return result;
     }
     
-    //get one cell base on it's coordinates
+    /**
+     * Get cell base on it's position
+     * @param row coordinate by y
+     * @param col coordinate by x
+     * @return value of given cell
+     */
     public int getCellValue(int row, int col) {
         return cells[row][col];
     }
     
+    /**
+     * Get shape's position
+     * @return shape's position
+     */
     public Point getPosition() {
         return this.position;
     }
-    
+    /**
+     * Set shape's position
+     * @param position shape's position
+     */
     public void setPosition(Point position) {
         this.position = position;
     }
-
+    /**
+     * Get shape's width
+     * @return shape's width
+     */
     public int getWidth() {
         return width;
     }
-
+    /**
+     * Set shape's width
+     * @param width shape's width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
-
+    /**
+     * Get shape's height
+     * @return shape's height
+     */
     public int getHeight() {
         return height;
     }
-
+    /** 
+     * Set shape's height
+     * @param height shape's height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
-
+    /**
+     * Get cells of shape
+     * @return property cells
+     */
     public int[][] getCells() {
         return cells;
     }
-
+    /** 
+     * Set cells for shapes
+     * @param cells shape's cells 
+     */
     public void setCells(int[][] cells) {
         this.cells = cells;
     }
-    
 }

@@ -9,12 +9,21 @@ import java.util.List;
 import tetris.model.shape.Shape;
 import tetris.model.shape.Figure;
 
-//Calculate bonus
+/**
+ * Calculate bonus
+ */
 public class BonusCalculator {
     
+    /**
+     * Cell's price
+     */
     private static final double CELL_PRICE = 10;
 
-    //Calculate bonus from list of shapes
+    /**
+     * Calculate bonus from list of shapes
+     * @param shapes input shapes to calculate bonus
+     * @return bonus
+     */
     public int calculateBonus(List<Shape> shapes) {
         
         int bonus = 0 ; 
@@ -28,5 +37,4 @@ public class BonusCalculator {
         }
         return bonus; 
     }
-    
 }

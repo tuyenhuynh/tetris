@@ -14,24 +14,32 @@ import tetris.model.event.GameFieldEvent;
 import tetris.navigation.Direction;
 
 /**
- *
- * @author tuyenhm
  * Abstract class of figures
  */
 public abstract class Figure extends Shape {
     
     private static final Logger logger = Logger.getLogger(Figure.class);
     
-    //current state of figures
+    /**
+     * Current state of figures
+     */
     protected int state;
     
-    //game field
+    /**
+     * Game field
+     */
     GameField gameField; 
     
-    //listener
+    /**
+     * FigureActionListener
+     */
     FigureActionListener listener; 
     
-    //move with given direction 
+    /**
+     * move with given direction 
+     * @param direction direction to move
+     * @return result of operation "move"
+     */
     public boolean move(Direction direction) {
         
         //current position of figure
@@ -78,12 +86,18 @@ public abstract class Figure extends Shape {
         return true; 
     }
     
-    //set game field
+    /**
+     * Set game field for figure
+     * @param gameField game field, on which figure's moving 
+     */
     public void setGameField(GameField gameField) {
         this.gameField = gameField;
     }
     
-    //
+    /**
+     * Check whether figure is in game field
+     * @return true if figure is on game field, otherwise return false
+     */
     protected boolean isInGameField() {
         //rotate right after appearing of new figure
         int x = this.position.x; 
@@ -95,18 +109,28 @@ public abstract class Figure extends Shape {
         return result; 
     }
     
-    //add listener
+    /**
+     * Add FigureActionListener
+     * @param listener FigureActionListener
+     */
     public void addActionListener(FigureActionListener listener) {
         this.listener = listener; 
     }
     
-    //rotate by clockwise
+    /**
+     * Rotate by clockwise
+     */
     public abstract void rotateByClockWise() ;
     
-    //rotate anti clockwise
+    /**
+     * Rotate anti clockwise
+     */
     public abstract void rotateAntiClockWise() ;
     
-    //rotate with wall kick
+    /**
+     * rotate with wall kick
+     * @return result of operation "rotate"
+     */
     public boolean rotate() {
         boolean isRotated = rotateRightAndCheckCollision(); 
         if(!isRotated && move(Direction.RIGHT)) {
@@ -153,7 +177,10 @@ public abstract class Figure extends Shape {
         return isRotated; 
     }
     
-    //check for collision with field's border and figures in game field
+    /**
+     * check for collision with field's borders and figures in game field
+     * @return false if collision occurred, otherwise return true
+     */
     private boolean validateRotation() {
         
         boolean isRotated = true;
@@ -169,7 +196,6 @@ public abstract class Figure extends Shape {
                 break;
             }
         }
-        
         return isRotated;
     }
 }

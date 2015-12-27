@@ -13,3 +13,4 @@ src/log4j.properties
 hs_err_pid*
 /build/
 example*
+/dist/

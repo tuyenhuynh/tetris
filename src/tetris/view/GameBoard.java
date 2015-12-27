@@ -188,10 +188,6 @@ public class GameBoard extends JFrame{
         requestFocusInWindow();
     }
     
-    /**
-     *
-     * @return
-     */
     public Dimension getFrameSize() {
         int width = gridPanel.getWidth() + nextFigurePanel.getWidth() + 90;
         logger.info("width = " + width);

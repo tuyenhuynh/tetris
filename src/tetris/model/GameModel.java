@@ -17,26 +17,42 @@ import tetris.model.event.GameListener;
 import tetris.model.event.RemoveShapesEvent;
 
 /**
- *
- * @author tuyenhm
+ * Game's model
  */
 public class GameModel {
     private static final Logger logger = Logger.getLogger(GameModel.class);
-    //score
+    /**
+     * Score
+     */ 
     private int score; 
-    //figure factory
+    /**
+     * Figure factory
+     */
     private FigureFactory figureFactory; 
-    //active figure
+    /**
+     * Active figure
+     */
     private Figure activeFigure; 
-    //next figure
+    
+    /**
+     * Next figure
+     */
     private Figure nextFigure; 
-    //listener
+    /**
+     * Listener
+     */
     private GameListener gameListener; 
-    //game field
+    /**
+     * Game field
+     */
     private GameField gameField; 
-    //bonus calculator
+    /**
+     * bonus calculator
+     */
     private BonusCalculator bonusCalculator;
-    //standard size of game tetris
+    /**
+     * Size of board
+     */
     private Dimension gridDimension;
     
     public GameModel() {
@@ -47,26 +63,41 @@ public class GameModel {
         gameField.addFieldBottomListener(new FieldBottomObserver());
     }
     
+    /**
+     * Set size for game board
+     * @param dimension size of game board
+     */
     public void setGridSize(Dimension dimension){
         this.gridDimension = dimension; 
         gameField.updateDimension(gridDimension); 
     }
     
+    /**
+     * Get size of game board
+     * @return size of game board
+     * 
+     */
     public Dimension getGridSize() {
         return this.gridDimension; 
     }
     
-    //start game
+    /**
+     * Start game
+     */
     public void startGame() {
         gameField.activateFigure();
     }
     
-    //stop game
+    /**
+     * Stop game
+     */
     public void stopGame() {
         gameField.deactivateFigure();
     }
     
-    //create new game
+    /**
+     * Create new game
+     */
     public void createNewGame() {
         //set initial score
         score = 0; 
@@ -87,11 +118,19 @@ public class GameModel {
         startGame();
     }
     
+    /**
+     * Get active figure
+     * @return active figure
+     */
     public Figure  getActiveFigure() {
         return this.activeFigure;
     }
     
-     public void addGameListener(GameListener gameListener) {
+    /**
+     * Add GameListener
+     * @param gameListener gameListener 
+     */
+    public void addGameListener(GameListener gameListener) {
         this.gameListener = gameListener;
     }
     
