@@ -46,9 +46,9 @@ public class NextFigurePanel extends JPanel{
         // set background
         setBackground(new Color(22, 37, 103));
         //draw border
+        g.setColor(new Color(51, 99, 207));
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
         //draw title of panel
-        g.setColor(new Color(51, 99, 207));
         g.fillRect(0, 0, getWidth(), 30);
         Font font = new Font("Impact", Font.TRUETYPE_FONT, 26);
         g.setColor(Color.WHITE);

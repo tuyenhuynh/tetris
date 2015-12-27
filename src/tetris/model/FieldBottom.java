@@ -5,10 +5,10 @@
  */
 package tetris.model;
 
-import com.sun.istack.internal.logging.Logger;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import tetris.model.event.FieldBottomEvent;
 import tetris.model.event.FieldBottomListener;
 import tetris.model.event.RemoveShapesEvent;
@@ -59,18 +59,18 @@ public class FieldBottom {
                 //updates width of rows
                 widths[y] ++; 
             }
-            
-            //remove full rows
-            List<Shape>removedShapes = removeFullRows();
             FieldBottomEvent evt = new FieldBottomEvent(this);
             evt.setShapes(shapes);
             listener.figureStopped(evt);
             logger.info("Figured stopped");
             
-            //emit event of removing full rows
+            //remove full rows
+            List<Shape>removedShapes = removeFullRows();
+            //publish event of removing full rows
             if(!removedShapes.isEmpty()) {
                 RemoveShapesEvent removeShapesEvent = new RemoveShapesEvent(this);
                 removeShapesEvent.setRemovedShapes(removedShapes);
+                removeShapesEvent.setRemainedShapes(shapes);
                 listener.fullRowsRemoved(removeShapesEvent);
                 logger.info("Full rows removed");
             }

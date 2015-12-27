@@ -13,6 +13,10 @@ import tetris.model.shape.Figure;
  */
 public interface GameListener {
     void gridBoardChanged(GameFieldEvent event);
+    void figureRotated(GameFieldEvent event);
+    void figureMoved(GameFieldEvent event);
+    void figureStopped(GameFieldEvent event);
+    void fullRowRemoved(GameFieldEvent event);
     void nextFigureChanged(Figure nextFigure);
     void scoreChanged(int newScore);
     void gameOver();

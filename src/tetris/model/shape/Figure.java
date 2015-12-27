@@ -68,7 +68,7 @@ public abstract class Figure extends Shape {
                 return false;
             }
         }
-        //emit signal after moving
+        //publish signal after moving
         FieldBottom bottom = gameField.getFieldBottom();
         GameFieldEvent event = new GameFieldEvent(this);
         event.setShapes(bottom.getShapes());
@@ -107,7 +107,7 @@ public abstract class Figure extends Shape {
     public abstract void rotateAntiClockWise() ;
     
     //rotate with wall kick
-    public void rotate() {
+    public boolean rotate() {
         boolean isRotated = rotateRightAndCheckCollision(); 
         if(!isRotated && move(Direction.RIGHT)) {
             isRotated = rotateRightAndCheckCollision();
@@ -135,7 +135,7 @@ public abstract class Figure extends Shape {
                 move(Direction.RIGHT);
             }
         }
-        //emit signal after rotating
+        //publish signal after rotating
         if(isRotated){
             FieldBottom bottom = gameField.getFieldBottom();
             GameFieldEvent event = new GameFieldEvent(this);
@@ -144,6 +144,7 @@ public abstract class Figure extends Shape {
             listener.figureRotated(event);
             logger.info("Figure rotated");
         }
+        return isRotated;
     }
     
     private boolean rotateRightAndCheckCollision(){

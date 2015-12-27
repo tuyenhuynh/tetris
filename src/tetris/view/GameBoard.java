@@ -15,7 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,6 +53,16 @@ public class GameBoard extends JFrame{
     private static final String ICON_RESTART = "/tetris/view/images/restart.png";
     private static final String NEW_GAME_TOOTIP = "New game"; 
     private static final String PLAY_PAUSE_TOOLTIP = "Play/Pause";
+    
+    private static final String GAMEOVER_SOUND = "src/Sound/gameover.wav";
+    private static final String GAMESTART_SOUND = "src/Sound/gamestart.wav";
+    private static final String FIGURE_ROTATED_SOUND = "src/Sound/figurerotated.wav";
+    private static final String FIGURE_ROTATE_FAIL_SOUND = "src/Sound/figurerotatefail.wav";
+    private static final String FIGURE_MOVELR_SOUND = "src/Sound/figuremoved.wav";
+    private static final String FIGURE_MOVELR_FAIL_SOUND = "src/Sound/figuremovefail.wav";
+    private static final String FIGURE_STOPPED_SOUND = "src/Sound/figurestopped.wav";
+    private static final String FULL_ROWS_REMOVED_SOUND = "src/Sound/fullrowremoved.wav";
+    
     private Icon iconPlay; 
     private Icon iconPause; 
     private Icon iconRestart; 
@@ -94,9 +108,9 @@ public class GameBoard extends JFrame{
             btnNewGame.setPreferredSize(new Dimension(32, 32));
             btnStart.setEnabled(false);
         }catch (Exception e) {
-            
+            e.printStackTrace();
         }
-         
+        
         Dimension frameSize = new Dimension(580, 690); 
         setPreferredSize(frameSize); 
         setMaximumSize(frameSize);
@@ -164,6 +178,7 @@ public class GameBoard extends JFrame{
         startGame(); 
         btnStart.setEnabled(true);
         getFocus();
+        playSound(GAMESTART_SOUND); 
     }
     
     private void getFocus() {
@@ -196,16 +211,43 @@ public class GameBoard extends JFrame{
             if(direction != Direction.NONE) {
                 Figure activeFigure = model.getActiveFigure() ; 
                 if(direction == Direction.UP) {
-                    activeFigure.rotate();
+                    boolean isRotated = activeFigure.rotate();
+                    if(!isRotated) {
+                        playSound(FIGURE_ROTATE_FAIL_SOUND);
+                    }
                 } else {
-                    
-                    activeFigure.move(direction);
+                    boolean isMoved = activeFigure.move(direction);
+                    if(!isMoved) {
+                        playSound(FIGURE_MOVELR_FAIL_SOUND);
+                    }
                 }
             }
         } 
     }
     
+    private Clip createClip(String path) throws Exception{
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        return clip;
+    }
+
+    private void playSound(String soundPath) {
+        try{
+            Clip clip = createClip(soundPath);
+            clip.start();
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     class GameObserver implements GameListener {
+
+        @Override
+        public void figureMoved(GameFieldEvent event) {
+            gridPanel.updateGridStatus(event);
+            playSound(FIGURE_MOVELR_SOUND);
+        }
 
         @Override
         public void gridBoardChanged(GameFieldEvent event) {
@@ -225,9 +267,26 @@ public class GameBoard extends JFrame{
         @Override
         public void gameOver() {
             btnStart.setEnabled(false);
+            playSound(GAMEOVER_SOUND);
             JOptionPane.showMessageDialog(null, "Game Over!!!");
         }
-        
+
+        @Override
+        public void figureRotated(GameFieldEvent event) {
+            gridPanel.updateGridStatus(event);
+            playSound(FIGURE_ROTATED_SOUND);
+        }
+
+        @Override
+        public void figureStopped(GameFieldEvent event) {
+            gridPanel.updateGridStatus(event);
+            playSound(FIGURE_STOPPED_SOUND);
+        }
+
+        @Override
+        public void fullRowRemoved(GameFieldEvent event) {
+            playSound(FULL_ROWS_REMOVED_SOUND);
+        }
     }
     
 }

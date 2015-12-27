@@ -5,6 +5,10 @@
  */
 package tetris;
 
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import tetris.view.GameBoard;
@@ -25,7 +29,6 @@ public class Tetris {
                 app.setTitle("TETRIS");
             }
         });
-        
     }
     
 }

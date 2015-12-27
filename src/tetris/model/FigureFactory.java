@@ -13,7 +13,6 @@ import tetris.model.shape.ZFigure;
 import tetris.model.shape.IFigure;
 import tetris.model.shape.TFigure;
 import tetris.model.shape.OFigure;
-import java.awt.Point;
 import java.util.Random;
 /**
  *

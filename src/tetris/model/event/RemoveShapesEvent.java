@@ -15,10 +15,20 @@ import tetris.model.shape.Shape;
  */
 public class RemoveShapesEvent extends EventObject{
     
+    private List<Shape> remainedShapes; 
+    
     private List<Shape> removedShapes; 
     
     public RemoveShapesEvent(Object source) {
         super(source);
+    }
+    
+    public void setRemainedShapes(List<Shape> remainedShapes) {
+        this.removedShapes = remainedShapes; 
+    }
+    
+    public List<Shape> getRemainedShapes() {
+        return remainedShapes;
     }
     
     public List<Shape> getRemovedShape() {

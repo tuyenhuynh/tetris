@@ -68,7 +68,7 @@ public class GameModel {
         //set next figure 
         nextFigure = figureFactory.createRandomFigure();
         nextFigure.setPosition(new Point(0, 1));
-        //emit event
+        //publish event
         gameListener.nextFigureChanged(nextFigure);
         //set active figure for game field
         gameField.setActiveFigure(activeFigure);
@@ -100,29 +100,34 @@ public class GameModel {
             activeFigure.addActionListener(new FigureActionObserver());
             //set active figure for game field
             gameField.setActiveFigure(activeFigure);
-            
-            //next figure
+            //change next figure
             nextFigure = newFigure;
-            //render next figure
+            //publish event about next figure changed
             gameListener.nextFigureChanged(nextFigure);
-            
-            
+            //publish event about board status
             GameFieldEvent gameFieldEvent = new GameFieldEvent(this);
             gameFieldEvent.setActiveFigure(activeFigure);
             gameFieldEvent.setShapes(event.getShapes());
-            
-            gameListener.gridBoardChanged(gameFieldEvent);
+            gameListener.figureStopped(gameFieldEvent);
             logger.info("Figure stopped. Rerendering grid");
         }
 
+        //process event about full rows removed
         @Override
         public void fullRowsRemoved(RemoveShapesEvent event) {
+            //calculate bonus
             int bonus = bonusCalculator.calculateBonus(event.getRemovedShape());
             score += bonus; 
+            //publish event after score changed
             gameListener.scoreChanged(score);
             logger.info("Score changed");
+            //publish event about full row removed
+            GameFieldEvent gameFieldEvent = new GameFieldEvent(this);
+            gameFieldEvent.setShapes(event.getRemainedShapes());
+            gameListener.fullRowRemoved(gameFieldEvent);
         }
 
+        //process event about buttom overloaded
         @Override
         public void bottomOverload(FieldBottomEvent event) {
             gameField.deactivateFigure();
@@ -133,15 +138,17 @@ public class GameModel {
     
     class FigureActionObserver implements FigureActionListener{
         
+        //process event about figure's rotation
         @Override
         public void figureRotated(GameFieldEvent event) {
-            gameListener.gridBoardChanged(event);
+            gameListener.figureRotated(event);
             logger.info("Figure rotated. Rerendering grid");
         }
         
+        //process event about figure's movement
         @Override
         public void figureMoved(GameFieldEvent event) {
-            gameListener.gridBoardChanged(event);
+            gameListener.figureMoved(event);
             logger.info("Figure moved. Rerendering grid");
         }
     }
