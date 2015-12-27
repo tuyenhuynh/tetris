@@ -83,20 +83,15 @@ public class FieldBottom {
     
     //remove full rows after adding figure to field's bottom
     public List<Shape> removeFullRows() {
-        
         List<Shape> removedShapes = new ArrayList<>();
-        
         //find full rows
         List<Integer> fullRows = findFullRows();
-        
         if(fullRows.size() > 0) {
             //find boundary of sequence of full rows
             int lowY = fullRows.get(0);
             int highY = fullRows.size() + lowY-1;
-        
             for(int i = 0 ; i < shapes.size() ;  ++i) {
                 Shape shape = shapes.get(i);
-                
                 //alone cell
                 if(shape instanceof AloneCell){
                     AloneCell cell=  (AloneCell)shape;
@@ -106,7 +101,6 @@ public class FieldBottom {
                         shapes.remove(i);
                         i--;
                         removedShapes.add(shape);
-                        
                     }
                 }else if(shape instanceof Figure) {
                     //figure or  part of figure burnt
@@ -130,7 +124,6 @@ public class FieldBottom {
                                     remainedCells.add(cell);
                                 }
                             }
-
                             //part of figure burnt
                             if(burntCells.size() > 0) {
                                 // break figures into cells and remove burnt cell
@@ -152,7 +145,6 @@ public class FieldBottom {
                     }
                 }
             }
-            
             //shift shapes above highY down
             int fullRowCount = fullRows.size(); 
             for(Shape shape : shapes ) {
@@ -163,7 +155,6 @@ public class FieldBottom {
                     shape.setPosition(new Point(newX, newY));
                 }
             }
-            
             //update widths; 
             for( int i = lowY; i < maxHeight - fullRowCount; ++i) {
                 widths[i] = widths[i+fullRowCount];

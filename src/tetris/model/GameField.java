@@ -42,7 +42,7 @@ public class GameField {
     private static final int DELAY = 500; 
     //lock delay - time to wait for player's action after figure's landing to bottom.
     //if player has no action after that amount of time, figure will be fixed to field's bottom
-    private static final int LOCK_DELAY = 700;
+    private static final int LOCK_DELAY = 400;
     
     public GameField(Dimension dimension) {
         this.width = dimension.width; 

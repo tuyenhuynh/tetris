@@ -80,6 +80,9 @@ public class GameBoard extends JFrame{
     private Icon iconRestart; 
     private boolean isRunning = false; 
     
+    /**
+     *
+     */
     public GameBoard (){
         getContentPane().setBackground(new Color(22, 37, 103));
         configureButtons();
@@ -185,6 +188,10 @@ public class GameBoard extends JFrame{
         requestFocusInWindow();
     }
     
+    /**
+     *
+     * @return
+     */
     public Dimension getFrameSize() {
         int width = gridPanel.getWidth() + nextFigurePanel.getWidth() + 90;
         logger.info("width = " + width);
