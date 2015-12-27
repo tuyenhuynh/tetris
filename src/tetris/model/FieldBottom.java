@@ -199,6 +199,7 @@ public class FieldBottom {
     
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
+        widths = new int[maxHeight];
     }
     
     //clear field's bottom

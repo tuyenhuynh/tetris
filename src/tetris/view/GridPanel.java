@@ -28,9 +28,9 @@ public class GridPanel  extends JPanel{
     private Figure activeFigure = null; 
     private List<Shape> shapes = new ArrayList<>(); 
     
-    public GridPanel (int columnCount, int rowCount) {
-        this.columnCount = columnCount; 
-        this.rowCount = rowCount; 
+    public GridPanel (Dimension gridSize) {
+        this.columnCount = gridSize.width; 
+        this.rowCount = gridSize.height; 
         Dimension size = new Dimension(columnCount*CELL_SIZE, rowCount*CELL_SIZE);
         setMaximumSize(size);
         setMinimumSize(size);
@@ -57,13 +57,16 @@ public class GridPanel  extends JPanel{
         }
         //draw border 
         g.setColor(new Color(1, 168, 213));
-        g.drawLine(0, 0, 300, 0);
-        g.drawLine(0, 0, 0, 600);
-        g.drawLine(299, 0, 299, 600);
-        g.drawLine(0, 599, 300, 599);
+        int realWidth= CELL_SIZE* columnCount;
+        int realHeight = CELL_SIZE* rowCount;
+        g.drawLine(0, 0, realWidth, 0);
+        g.drawLine(0, 0, 0, realHeight);
+        g.drawLine(realWidth -1 , 0, realWidth - 1, realHeight);
+        g.drawLine(0, realHeight -1 , realWidth,realHeight - 1);
         Color c = new Color (47, 79, 79);
         //set background
         setBackground(new Color(22, 31, 74));
+                
         //draw figure 
         if(activeFigure != null ) {
             g.setColor(activeFigure.getColor());
@@ -73,6 +76,16 @@ public class GridPanel  extends JPanel{
         for(Shape shape : shapes) {
             DrawUtility.drawShape(g,0, 0, CELL_SIZE, rowCount, shape);
         }
+    }
+    
+    @Override
+    public int getWidth(){
+        return columnCount*CELL_SIZE;
+    }
+    
+    @Override 
+    public int getHeight() {
+        return rowCount*CELL_SIZE; 
     }
     
 }

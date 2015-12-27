@@ -5,6 +5,7 @@
  */
 package tetris.model;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -43,12 +44,11 @@ public class GameField {
     //if player has no action after that amount of time, figure will be fixed to field's bottom
     private static final int LOCK_DELAY = 700;
     
-    public GameField(int width, int height) {
-        this.width = width; 
-        this.height = height;
+    public GameField(Dimension dimension) {
+        this.width = dimension.width; 
+        this.height = dimension.height;
         fieldBottom = new FieldBottom(width, height);
         timer = new Timer(DELAY, null);
-        
         timer1 = new Timer(LOCK_DELAY, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +58,6 @@ public class GameField {
                 }
             }
         });
-        
         //timer to move figure down after DELAY time
         timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +67,13 @@ public class GameField {
                 }
             }
         });
+    }
+    
+    public void updateDimension(Dimension dimension){
+        this.width = dimension.width; 
+        this.height = dimension.height;
+        fieldBottom.setMaxHeight(height);
+        fieldBottom.setMaxWidth(width);
     }
     
     //clear bottom

@@ -5,6 +5,7 @@
  */
 package tetris.model;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import org.apache.log4j.Logger;
 import tetris.model.event.FieldBottomEvent;
@@ -36,14 +37,23 @@ public class GameModel {
     //bonus calculator
     private BonusCalculator bonusCalculator;
     //standard size of game tetris
-    private static final int WIDTH = 10; 
-    private static final int HEIGHT = 20;
+    private Dimension gridDimension;
     
     public GameModel() {
         figureFactory = new FigureFactory(); 
         bonusCalculator  = new BonusCalculator();
-        gameField = new GameField(10, 20);
+        gridDimension  = new  Dimension(10, 20);
+        gameField = new GameField(gridDimension);
         gameField.addFieldBottomListener(new FieldBottomObserver());
+    }
+    
+    public void setGridSize(Dimension dimension){
+        this.gridDimension = dimension; 
+        gameField.updateDimension(gridDimension); 
+    }
+    
+    public Dimension getGridSize() {
+        return this.gridDimension; 
     }
     
     //start game
@@ -62,7 +72,7 @@ public class GameModel {
         score = 0; 
         //set active figure and it's properties
         activeFigure = figureFactory.createRandomFigure();
-        activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
+        activeFigure.setPosition(new Point(gridDimension.width/2-1, gridDimension.height));
         activeFigure.setGameField(gameField);
         activeFigure.addActionListener(new FigureActionObserver());
         //set next figure 
@@ -95,7 +105,7 @@ public class GameModel {
             //change active figure
             activeFigure = nextFigure;
             //configure active figure
-            activeFigure.setPosition(new Point(WIDTH/2-1, HEIGHT));
+            activeFigure.setPosition(new Point(((int)gridDimension.getWidth())/2-1, ((int)gridDimension.getHeight())));
             activeFigure.setGameField(gameField);
             activeFigure.addActionListener(new FigureActionObserver());
             //set active figure for game field
