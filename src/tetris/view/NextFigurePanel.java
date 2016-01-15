@@ -56,7 +56,7 @@ public class NextFigurePanel extends JPanel{
         g.drawString("NEXT", 40 ,25 );
         //draw next figure
         if(figure!= null) {
-            DrawUtility.drawShape(g, margin_left,  margin_top, CELL_SIZE,2, figure);
+            ShapeVisual.drawShape(g, margin_left,  margin_top, CELL_SIZE,2, figure);
         }
     }
 }

@@ -24,7 +24,7 @@ public class RemoveShapesEvent extends EventObject{
     }
     
     public void setRemainedShapes(List<Shape> remainedShapes) {
-        this.removedShapes = remainedShapes; 
+        this.remainedShapes = remainedShapes; 
     }
     
     public List<Shape> getRemainedShapes() {

@@ -70,11 +70,11 @@ public class GridPanel  extends JPanel{
         //draw figure 
         if(activeFigure != null ) {
             g.setColor(activeFigure.getColor());
-            DrawUtility.drawShape(g, 0, 0, CELL_SIZE, rowCount, activeFigure);
+            ShapeVisual.drawShape(g, 0, 0, CELL_SIZE, rowCount, activeFigure);
         }
         //draw bottom 
         for(Shape shape : shapes) {
-            DrawUtility.drawShape(g,0, 0, CELL_SIZE, rowCount, shape);
+            ShapeVisual.drawShape(g,0, 0, CELL_SIZE, rowCount, shape);
         }
     }
     

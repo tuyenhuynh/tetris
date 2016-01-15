@@ -181,6 +181,8 @@ public class GameBoard extends JFrame{
         btnStart.setEnabled(true);
         getFocus();
         playSound(GAMESTART_SOUND); 
+        scorePanel.setScore(0);
+        
     }
     
     private void getFocus() {

@@ -14,7 +14,7 @@ import tetris.model.shape.Shape;
  * @author tuyenhm
  * Utility class to draw figure on panel
  */
-public class DrawUtility {
+public class ShapeVisual{
     
     public static void drawShape(Graphics g, int paddingX, int paddingY, int cellSize, int rowCount, Shape shape) {
         for(int i = 0 ; i < shape.getHeight() ; ++i) {

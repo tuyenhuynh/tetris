@@ -30,9 +30,11 @@ public class BonusCalculator {
         
         for(Shape shape : shapes) {
             if(shape instanceof Figure) {
+                //bonus+= 4*10*CELL_PRICE;
                 bonus+= 4*10*CELL_PRICE;
             }else {
                 bonus+= CELL_PRICE;
+                System.out.println("Bonus :" + bonus); 
             }
         }
         return bonus; 
