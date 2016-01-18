@@ -12,7 +12,6 @@ import tetris.model.shape.Figure;
  * @author tuyenhm
  */
 public interface GameListener {
-    void gridBoardChanged(GameFieldEvent event);
     void figureRotated(GameFieldEvent event);
     void figureMoved(GameFieldEvent event);
     void figureStopped(GameFieldEvent event);
