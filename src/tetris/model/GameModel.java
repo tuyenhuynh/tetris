@@ -84,7 +84,7 @@ public class GameModel {
     /**
      * Start game
      */
-    public void startGame() {
+    public void play() {
         gameField.activateFigure();
     }
     
@@ -98,7 +98,7 @@ public class GameModel {
     /**
      * Create new game
      */
-    public void createNewGame() {
+    public void newGame() {
         //set initial score
         score = 0; 
         //set active figure and it's properties
@@ -115,7 +115,7 @@ public class GameModel {
         gameField.setActiveFigure(activeFigure);
         gameField.clearBottom();
         //star game
-        startGame();
+        play();
     }
     
     /**

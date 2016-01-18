@@ -162,7 +162,7 @@ public class GameBoard extends JFrame{
     }
     
     private void startGame() {
-        model.startGame();
+        model.play();
         isRunning = true;
         btnStart.setIcon(iconPause);
         getFocus();
@@ -176,7 +176,7 @@ public class GameBoard extends JFrame{
     }
     
     private void newGame() {
-        model.createNewGame();
+        model.newGame();
         startGame(); 
         btnStart.setEnabled(true);
         getFocus();
