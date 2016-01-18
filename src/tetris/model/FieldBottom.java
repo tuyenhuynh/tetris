@@ -95,8 +95,13 @@ public class FieldBottom {
      * @return shapes in field's bottom
      */
     public List<Shape> getShapes () {
-        return shapes; 
+        List<Shape> clonedShapes = new ArrayList<Shape>(); 
+        for(Shape shape : shapes) {
+            clonedShapes.add(shape);
+        }
+        return clonedShapes; 
     }
+    
     
     /**
      * Remove full rows after adding figure to field's bottom
