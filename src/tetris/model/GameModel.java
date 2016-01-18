@@ -134,7 +134,7 @@ public class GameModel {
         this.gameListener = gameListener;
     }
     
-    class FieldBottomObserver implements FieldBottomListener {
+    private class FieldBottomObserver implements FieldBottomListener {
 
         @Override
         public void figureStopped(FieldBottomEvent event) {
