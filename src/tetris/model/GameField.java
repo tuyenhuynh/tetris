@@ -8,9 +8,11 @@ package tetris.model;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.Timer;
 import tetris.model.event.FieldBottomListener;
 import tetris.model.shape.Figure;
+import tetris.model.shape.Shape;
 import tetris.navigation.Direction;
 
 /**
@@ -138,8 +140,8 @@ public class GameField {
      * Get field's bottom
      * @return Field's bottom
      */
-    public FieldBottom getFieldBottom() {
-        return this.fieldBottom;
+    public List<Shape> getFieldBottom() {
+        return fieldBottom.getShapes();
     }
     /**
      * Get field's width

@@ -7,7 +7,6 @@ package tetris.model.shape;
 
 import java.awt.Point;
 import org.apache.log4j.Logger;
-import tetris.model.FieldBottom;
 import tetris.model.GameField;
 import tetris.model.event.FigureActionListener;
 import tetris.model.event.GameFieldEvent;
@@ -70,16 +69,15 @@ public abstract class Figure extends Shape {
             return false; 
         }
         //check collision with other figures in fields' bottom
-        for(Shape shape : gameField.getFieldBottom().getShapes()) {
+        for(Shape shape : gameField.getFieldBottom()) {
             if(isCollideWith(shape)) {
                 setPosition(oldPos);
                 return false;
             }
         }
         //publish signal after moving
-        FieldBottom bottom = gameField.getFieldBottom();
         GameFieldEvent event = new GameFieldEvent(this);
-        event.setShapes(bottom.getShapes());
+        event.setShapes(gameField.getFieldBottom());
         event.setActiveFigure(this);
         listener.figureMoved(event);
         logger.info("Figure moved");
@@ -161,9 +159,8 @@ public abstract class Figure extends Shape {
         }
         //publish signal after rotating
         if(isRotated){
-            FieldBottom bottom = gameField.getFieldBottom();
             GameFieldEvent event = new GameFieldEvent(this);
-            event.setShapes(bottom.getShapes());
+            event.setShapes(gameField.getFieldBottom());
             event.setActiveFigure(this);
             listener.figureRotated(event);
             logger.info("Figure rotated");
@@ -189,7 +186,7 @@ public abstract class Figure extends Shape {
             isRotated = false;
         }
         
-        for(Shape shape: gameField.getFieldBottom().getShapes() ) {
+        for(Shape shape: gameField.getFieldBottom()) {
             if(this.isCollideWith(shape)) {
                 rotateAntiClockWise();
                 isRotated =  false; 
