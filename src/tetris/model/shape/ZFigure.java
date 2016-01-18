@@ -77,9 +77,4 @@ public class ZFigure extends Figure{
         }
         cells = cellsConfigs[state];
     }
-    
-    @Override
-    public int[][] getCells() {
-        return cellsConfigs[state];
-    }
 }

@@ -36,10 +36,10 @@ public class OFigure extends Figure{
         return 2; 
     }
     
-    @Override
-    public int[][] getCells() {
-        return cellsConfigs[0];
-    }
+//    @Override
+//    public int[][] getCells() {
+//        return cellsConfigs[0];
+//    }
 
     @Override
     public void rotateByClockWise() {

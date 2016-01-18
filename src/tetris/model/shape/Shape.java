@@ -16,18 +16,7 @@ import java.util.List;
  * Abstract class Shape
  */
 public abstract class Shape {
-    
-    /**
-     * Shape's width
-     */
-    private int width; 
-    /**
-     * Shape's height
-     */
-    private int height; 
-    /**
-     * Shape's color
-     */
+   
     private Color color; 
     /**
      * Shape's position on game board
@@ -116,46 +105,16 @@ public abstract class Shape {
     public void setPosition(Point position) {
         this.position = position;
     }
-    /**
-     * Get shape's width
-     * @return shape's width
-     */
-    public int getWidth() {
-        return width;
-    }
-    /**
-     * Set shape's width
-     * @param width shape's width
-     */
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    /**
-     * Get shape's height
-     * @return shape's height
-     */
-    public int getHeight() {
-        return height;
-    }
-    /** 
-     * Set shape's height
-     * @param height shape's height
-     */
-    public void setHeight(int height) {
-        this.height = height;
-    }
+
+    public abstract int getWidth();
+    
+    public abstract int getHeight(); 
+    
     /**
      * Get cells of shape
      * @return property cells
      */
-    public int[][] getCells() {
+    int[][] getCells() {
         return cells;
-    }
-    /** 
-     * Set cells for shapes
-     * @param cells shape's cells 
-     */
-    public void setCells(int[][] cells) {
-        this.cells = cells;
     }
 }

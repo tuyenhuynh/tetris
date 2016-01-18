@@ -72,9 +72,4 @@ public class SFigure extends Figure{
         }
         cells = cellsConfigs[state];
     }
-    
-    @Override 
-    public int[][] getCells() {
-        return cellsConfigs[state];
-    }
 }
