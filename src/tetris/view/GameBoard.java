@@ -190,9 +190,8 @@ public class GameBoard extends JFrame{
         requestFocusInWindow();
     }
     
-    public Dimension getFrameSize() {
+    private Dimension getFrameSize() {
         int width = gridPanel.getWidth() + nextFigurePanel.getWidth() + 90;
-        logger.info("width = " + width);
         int height = gridPanel.getHeight() + 80;
         return new Dimension(width, height);
     }
@@ -283,15 +282,17 @@ public class GameBoard extends JFrame{
             }
             if(direction != Direction.NONE) {
                 Figure activeFigure = model.getActiveFigure() ; 
-                if(direction == Direction.UP) {
-                    boolean isRotated = activeFigure.rotate();
-                    if(!isRotated) {
-                        playSound(FIGURE_ROTATE_FAIL_SOUND);
-                    }
-                } else {
-                    boolean isMoved = activeFigure.move(direction);
-                    if(!isMoved) {
-                        playSound(FIGURE_MOVELR_FAIL_SOUND);
+                if(activeFigure  != null ) {
+                    if(direction == Direction.UP) {
+                        boolean isRotated = activeFigure.rotate();
+                        if(!isRotated) {
+                            playSound(FIGURE_ROTATE_FAIL_SOUND);
+                        }
+                    } else {
+                        boolean isMoved = activeFigure.move(direction);
+                        if(!isMoved) {
+                            playSound(FIGURE_MOVELR_FAIL_SOUND);
+                        }
                     }
                 }
             }
@@ -320,11 +321,6 @@ public class GameBoard extends JFrame{
         public void figureMoved(GameFieldEvent event) {
             gridPanel.updateGridStatus(event);
             playSound(FIGURE_MOVELR_SOUND);
-        }
-
-        @Override
-        public void gridBoardChanged(GameFieldEvent event) {
-            gridPanel.updateGridStatus(event);
         }
 
         @Override
