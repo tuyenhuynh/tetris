@@ -107,7 +107,7 @@ public class FieldBottom {
      * Remove full rows after adding figure to field's bottom
      * @return list of removed shapes
      */
-    public List<Shape> removeFullRows() {
+    private List<Shape> removeFullRows() {
         List<Shape> removedShapes = new ArrayList<>();
         //find full rows
         List<Integer> fullRows = findFullRows();
