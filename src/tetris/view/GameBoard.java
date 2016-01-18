@@ -258,7 +258,7 @@ public class GameBoard extends JFrame{
     }
     
     
-    class KeyObserver extends KeyAdapter {
+    private class KeyObserver extends KeyAdapter {
         
         @Override
         public void keyPressed(KeyEvent e) {
@@ -315,7 +315,7 @@ public class GameBoard extends JFrame{
         }
     }
     
-    class GameObserver implements GameListener {
+    private class GameObserver implements GameListener {
 
         @Override
         public void figureMoved(GameFieldEvent event) {
