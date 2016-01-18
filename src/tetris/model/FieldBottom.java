@@ -7,6 +7,7 @@ package tetris.model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Logger;
 import tetris.model.event.FieldBottomEvent;
@@ -22,6 +23,11 @@ import tetris.model.shape.Shape;
 public class FieldBottom {
     
     private static final Logger logger = Logger.getLogger(FieldBottom.class);
+    
+    /**
+     * Strategy to clear full rows 
+     */
+    private FullRowProcessor fullRowProcessor; 
     
     /**
      * The first and last name of this student.
@@ -43,13 +49,29 @@ public class FieldBottom {
      */
     private int[] widths;
     
-    //listener
+    /**
+     * Listener
+     */
     private FieldBottomListener listener; 
     
+    /**
+     * 
+     * @param maxWidth Field bottom's max width
+     * @param maxHeight Field bottom's max height
+     */
     public FieldBottom (int maxWidth, int maxHeight) {
         this.maxHeight = maxHeight; 
         this.maxWidth = maxWidth;
         widths = new int [maxHeight]; 
+    }
+    
+    /**
+     * Set FullRowProcessor
+     * @param processor Full row processor 
+     */
+    public void setFullRowProcessor(FullRowProcessor processor) {
+        this.fullRowProcessor = processor; 
+        processor.setFieldBottom(this);
     }
     
     /**
@@ -80,7 +102,7 @@ public class FieldBottom {
             //remove full rows
             List<Shape>removedShapes = removeFullRows();
             //publish event of removing full rows
-            if(!removedShapes.isEmpty()) {
+            if(removedShapes != null && !removedShapes.isEmpty()) {
                 RemoveShapesEvent removeShapesEvent = new RemoveShapesEvent(this);
                 removeShapesEvent.setRemovedShapes(removedShapes);
                 removeShapesEvent.setRemainedShapes(shapes);
@@ -88,6 +110,86 @@ public class FieldBottom {
                 logger.info("Full rows removed");
             }
         }
+    }
+    
+    /**
+     *  Remove shapes from rows
+     * @param rows Rows, shapes or part of shapes on which should be remove
+     * @return list of removed shapes
+     */
+    List<Shape> removeShapesFromRows(List<Integer> rows) {
+        List<Shape> removedShapes = new ArrayList<>(); 
+        //find boundary of sequence of full rows
+        Collections.sort(rows);
+        int lowY = rows.get(0);
+        int highY = rows.size() + lowY-1;
+        for(int i = 0 ; i < shapes.size() ;  ++i) {
+            Shape shape = shapes.get(i);
+            //alone cell
+            if(shape instanceof AloneCell){
+                AloneCell cell=  (AloneCell)shape;
+                int y = cell.getPosition().y;
+                //alone cell burnt
+                if(y >= lowY && y <= highY ) {
+                    shapes.remove(i);
+                    i--;
+                    removedShapes.add(shape);
+                }
+            }else if(shape instanceof Figure) {
+                //figure or  part of figure burnt
+                if( !(shape.getPosition().y < lowY || shape.getPosition().y + 1 - shape.getHeight() > highY)) {
+                    //figure burnt totally
+                    if(isTotallyBurnt(shape, rows)){
+                        //remove figure
+                        shapes.remove(i);
+                        i--;
+                        removedShapes.add(shape);
+                    } else {
+                        //check if part of figure burnt
+                        List<Point>  points = shape.findNotEmptyCells();
+                        List<Point> burntCells = new ArrayList<>(); 
+                        List<Point> remainedCells = new ArrayList<>(); 
+
+                        for(Point cell : points ) {
+                            if(cell.y >=lowY &&  cell.y <=highY ) {
+                                burntCells.add(cell);
+                            }else {
+                                remainedCells.add(cell);
+                            }
+                        }
+                        //part of figure burnt
+                        if(burntCells.size() > 0) {
+                            // break figures into cells and remove burnt cell
+                            shapes.remove(i);
+                            i--;
+                            for(Point point : burntCells) {
+                                AloneCell burntCell = new AloneCell(point);
+                                burntCell.setColor(shape.getColor());
+                                removedShapes.add(burntCell);
+                            }
+                            //transform remained cells into alone cells and add them to field's bottom
+                            for(Point point : remainedCells) {
+                                AloneCell remainCell  = new AloneCell(point);
+                                remainCell.setColor(shape.getColor());
+                                shapes.add(remainCell);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return removedShapes; 
+    }
+    
+    private boolean isTotallyBurnt(Shape shape, List<Integer> fullRows) {
+        List<Point> points = shape.findNotEmptyCells(); 
+        int count = 0;
+        for(int i = 0 ; i < points.size() ; ++ i) {
+            if(fullRows.contains(points.get(i).y)){
+                count++; 
+            }
+        }
+        return (count == points.size());
     }
     
     /**
@@ -102,101 +204,27 @@ public class FieldBottom {
         return clonedShapes; 
     }
     
+    /**
+     * Reference to shapes in field's bottom
+     * @return Shapes in fiele's bottom
+     */
+    public List<Shape> getOriginalShapes() {
+        return shapes; 
+    }
     
     /**
      * Remove full rows after adding figure to field's bottom
      * @return list of removed shapes
      */
     private List<Shape> removeFullRows() {
-        List<Shape> removedShapes = new ArrayList<>();
-        //find full rows
-        List<Integer> fullRows = findFullRows();
-        if(fullRows.size() > 0) {
-            //find boundary of sequence of full rows
-            int lowY = fullRows.get(0);
-            int highY = fullRows.size() + lowY-1;
-            for(int i = 0 ; i < shapes.size() ;  ++i) {
-                Shape shape = shapes.get(i);
-                //alone cell
-                if(shape instanceof AloneCell){
-                    AloneCell cell=  (AloneCell)shape;
-                    int y = cell.getPosition().y;
-                    //alone cell burnt
-                    if(y >= lowY && y <= highY ) {
-                        shapes.remove(i);
-                        i--;
-                        removedShapes.add(shape);
-                    }
-                }else if(shape instanceof Figure) {
-                    //figure or  part of figure burnt
-                    if( !(shape.getPosition().y < lowY || shape.getPosition().y + 1 - shape.getHeight() > highY)) {
-                        //figure burnt
-                        if(shape.getPosition().y <= highY && shape.getPosition().y+ 1 - shape.getHeight() >= lowY){
-                            //remove figure
-                            shapes.remove(i);
-                            i--;
-                            removedShapes.add(shape);
-                        } else {
-                            //check if part of figure burnt
-                            List<Point>  points = shape.findNotEmptyCells();
-                            List<Point> burntCells = new ArrayList<>(); 
-                            List<Point> remainedCells = new ArrayList<>(); 
-                                
-                            for(Point cell : points ) {
-                                if(cell.y >=lowY &&  cell.y <=highY ) {
-                                    burntCells.add(cell);
-                                }else {
-                                    remainedCells.add(cell);
-                                }
-                            }
-                            //part of figure burnt
-                            if(burntCells.size() > 0) {
-                                // break figures into cells and remove burnt cell
-                                shapes.remove(i);
-                                i--;
-                                for(Point point : burntCells) {
-                                    AloneCell burntCell = new AloneCell(point);
-                                    burntCell.setColor(shape.getColor());
-                                    removedShapes.add(burntCell);
-                                }
-                                //transform remained cells into alone cells and add them to field's bottom
-                                for(Point point : remainedCells) {
-                                    AloneCell remainCell  = new AloneCell(point);
-                                    remainCell.setColor(shape.getColor());
-                                    shapes.add(remainCell);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            //shift shapes above highY down
-            int fullRowCount = fullRows.size(); 
-            for(Shape shape : shapes ) {
-                int  y = shape.getPosition().y; 
-                if( y> highY) {
-                    int newX = shape.getPosition().x;
-                    int newY = y - fullRowCount;
-                    shape.setPosition(new Point(newX, newY));
-                }
-            }
-            //update widths; 
-            for( int i = lowY; i < maxHeight - fullRowCount; ++i) {
-                widths[i] = widths[i+fullRowCount];
-            }
-            for(int i = maxHeight - fullRowCount ;  i < maxHeight; ++i ) {
-                widths[i] = 0 ; 
-            }
-        }
-        fullRows.clear();
-        return  removedShapes;
+        return fullRowProcessor.removeFullRows();
     }
     
     /**
      * Find full row base of width of each rows
      * @return list of full rows
      */
-    private List<Integer> findFullRows() {
+    public List<Integer> findFullRows() {
         List<Integer> fullRows = new ArrayList<>();
         for(int i = 0; i < widths.length ; ++i) {
             if(widths[i] == maxWidth){
@@ -212,6 +240,13 @@ public class FieldBottom {
      */
     public void addFieldBottomListener(FieldBottomListener listener) {
         this.listener = listener;
+    }
+     /**
+     * Get maxWidth
+     * @return maximum width of field's bottom
+     */
+    public int getMaxWidth() {
+        return this.maxWidth; 
     }
     
     /**
@@ -229,6 +264,30 @@ public class FieldBottom {
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
         widths = new int[maxHeight];
+    }
+    
+    /**
+     * Get max width of fields's bottom
+     * @return max height
+     */
+    public int getMaxHeight() {
+        return this.maxHeight; 
+    }
+    
+    /**
+     * Get widths
+     * @return widths
+     */
+    public int[] getWidths(){
+        return this.widths; 
+    }
+    
+    /**
+     * Update widths
+     * @param widths new values of width 
+     */
+    void updateWidths(int[] widths) {
+        this.widths = widths; 
     }
     
     /**

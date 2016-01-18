@@ -185,7 +185,7 @@ public class GameModel {
         }
     }
     
-    class FigureActionObserver implements FigureActionListener{
+    private class FigureActionObserver implements FigureActionListener{
         
         //process event about figure's rotation
         @Override

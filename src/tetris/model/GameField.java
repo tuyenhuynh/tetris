@@ -16,7 +16,7 @@ import tetris.model.shape.Shape;
 import tetris.navigation.Direction;
 
 /**
- * class GameField, which contains 
+ * class GameField, which contains field's bottom and active figure
  */
 public class GameField {
     
@@ -68,6 +68,7 @@ public class GameField {
         this.width = dimension.width; 
         this.height = dimension.height;
         fieldBottom = new FieldBottom(width, height);
+        fieldBottom.setFullRowProcessor(new NaiveFullRowProcessor());
         timer = new Timer(DELAY, null);
         timer1 = new Timer(LOCK_DELAY, new ActionListener(){
             @Override
